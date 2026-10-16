@@ -2,6 +2,8 @@
 
 A polished, modern, and highly modular ecommerce storefront template built with **React 19**, **TypeScript**, **Vite**, and **Tailwind CSS v4**. It ships with responsive product grids, faceted filtering, rich product pages, a slide-out cart, wishlist, quick view, search, and an end-to-end (simulated) checkout.
 
+**Live demo:** [aura-storefront-gio.vercel.app](https://aura-storefront-gio.vercel.app/)
+
 > **This is a front-end template, not a working store.** There is no backend, no database, and no payment or email provider. Checkout, accounts, orders, reviews, and newsletter signup are all simulated client-side for demonstration purposes. Please read [Demo data & simulated behavior](#demo-data--simulated-behavior) before using it as a starting point.
 
 ---
