@@ -22,7 +22,9 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
       {/* Tabs */}
       <div className="flex border-b border-neutral-200">
         <button
+          type="button"
           onClick={() => setActiveTab('privacy')}
+          aria-pressed={activeTab === 'privacy'}
           className={`pb-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 px-4 transition-colors ${
             activeTab === 'privacy'
               ? 'border-neutral-900 text-neutral-900'
@@ -32,7 +34,9 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
           Privacy Policy
         </button>
         <button
+          type="button"
           onClick={() => setActiveTab('terms')}
+          aria-pressed={activeTab === 'terms'}
           className={`pb-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 px-4 transition-colors ${
             activeTab === 'terms'
               ? 'border-neutral-900 text-neutral-900'
@@ -42,6 +46,11 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
           Terms & Conditions
         </button>
       </div>
+
+      <p className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">
+        Placeholder policy text for demonstration. This template is a design demo — it does not
+        process payments, create accounts, or store personal data.
+      </p>
 
       {activeTab === 'privacy' ? (
         <article className="prose prose-neutral max-w-none text-xs sm:text-sm text-neutral-700 space-y-6 leading-relaxed">
@@ -78,7 +87,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
           <section className="space-y-2">
             <h2 className="text-base font-bold text-neutral-900">4. Your Data Rights</h2>
             <p>
-              Under applicable consumer privacy regulations (including GDPR and CCPA), you possess the right to inspect, update, or permanently delete personal data stored in connection with your account. Contact privacy@{storeConfig.storeName.toLowerCase()}.com to execute a data removal request.
+              Under applicable consumer privacy regulations (including GDPR and CCPA), you possess the right to inspect, update, or permanently delete personal data stored in connection with your account. Contact privacy@{storeConfig.contactEmail.split('@')[1]} to execute a data removal request.
             </p>
           </section>
         </article>
