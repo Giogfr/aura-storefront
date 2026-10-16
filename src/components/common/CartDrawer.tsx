@@ -173,14 +173,17 @@ export const CartDrawer: React.FC = () => {
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
                         <div className="flex items-start justify-between gap-2">
-                          <h4
-                            onClick={() => {
-                              setIsCartOpen(false);
-                              navigateTo('product', { productId: item.productId });
-                            }}
-                            className="text-xs font-semibold text-neutral-900 hover:text-neutral-600 cursor-pointer transition-colors line-clamp-1"
-                          >
-                            {item.title}
+                          <h4 className="text-xs font-semibold min-w-0">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setIsCartOpen(false);
+                                navigateTo('product', { productId: item.productId });
+                              }}
+                              className="block w-full text-left text-neutral-900 hover:text-neutral-600 transition-colors line-clamp-1"
+                            >
+                              {item.title}
+                            </button>
                           </h4>
                           <button
                             type="button"
@@ -290,6 +293,7 @@ export const CartDrawer: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowPromoInput(!showPromoInput)}
+                    aria-expanded={showPromoInput}
                     className="flex items-center gap-1 text-neutral-600 hover:text-neutral-900 font-medium"
                   >
                     <Tag className="w-3.5 h-3.5" />
@@ -298,6 +302,7 @@ export const CartDrawer: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowOrderNote(!showOrderNote)}
+                    aria-expanded={showOrderNote}
                     className="text-neutral-500 hover:text-neutral-900 text-xs"
                   >
                     {orderNote ? 'Edit note' : 'Add order note'}
@@ -334,6 +339,7 @@ export const CartDrawer: React.FC = () => {
                       value={inputCode}
                       onChange={(e) => setInputCode(e.target.value)}
                       placeholder="e.g. WELCOME10"
+                      aria-label="Promo code"
                       className="flex-1 px-3 py-1.5 text-xs uppercase border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                     />
                     <button
@@ -371,6 +377,7 @@ export const CartDrawer: React.FC = () => {
                       onChange={(e) => setOrderNote(e.target.value)}
                       rows={2}
                       placeholder="Special instructions for shipping or delivery..."
+                      aria-label="Order note"
                       className="w-full text-xs p-2 border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                     />
                   </div>
