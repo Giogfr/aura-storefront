@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { storeConfig, categoriesData } from '../../data/storeConfig';
-import { ArrowRight, Check, Instagram, Twitter, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check, ShieldCheck } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { navigateTo, showToast } = useStore();
+  const { navigateTo, showToast, activeCurrency, setActiveCurrency, availableCurrencies } = useStore();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState('USD ($)');
 
   const handleNewsletter = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +39,7 @@ export const Footer: React.FC = () => {
                   <Check className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <strong className="block text-emerald-400">You're subscribed!</strong>
+                  <strong className="block text-emerald-400">You're subscribed! (demo)</strong>
                   Use code <span className="underline font-mono font-bold">WELCOME10</span> at checkout for 10% off.
                 </div>
               </div>
@@ -207,16 +206,19 @@ export const Footer: React.FC = () => {
                 Currency & Region
               </label>
               <select
-                value={selectedCurrency}
-                onChange={(e) => setSelectedCurrency(e.target.value)}
+                value={activeCurrency.code}
+                onChange={(e) => {
+                  const next = availableCurrencies.find((c) => c.code === e.target.value);
+                  if (next) setActiveCurrency(next);
+                }}
+                aria-label="Select currency and region"
                 className="w-full bg-neutral-900 border border-neutral-800 text-xs text-neutral-300 rounded px-2.5 py-1.5 focus:outline-hidden focus:border-neutral-600"
               >
-                <option value="USD ($)">United States (USD $)</option>
-                <option value="CAD ($)">Canada (CAD $)</option>
-                <option value="EUR (€)">European Union (EUR €)</option>
-                <option value="GBP (£)">United Kingdom (GBP £)</option>
-                <option value="AUD ($)">Australia (AUD $)</option>
-                <option value="JPY (¥)">Japan (JPY ¥)</option>
+                {availableCurrencies.map((curr) => (
+                  <option key={curr.code} value={curr.code}>
+                    {curr.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -228,7 +230,7 @@ export const Footer: React.FC = () => {
             <span>© {new Date().getFullYear()} {storeConfig.storeName} Storefront Inc. All rights reserved.</span>
             <span className="hidden sm:inline">•</span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 256-Bit Encrypted Commerce
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Demo template — no live transactions
             </span>
           </div>
 
