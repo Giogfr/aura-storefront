@@ -11,11 +11,6 @@ export const storeConfig: StoreConfig = {
       'Designed with intention. Crafted with responsible materials.',
     ],
   },
-  currency: {
-    symbol: '$',
-    code: 'USD',
-    rate: 1,
-  },
   freeShippingThreshold: 75,
   standardShippingFee: 8,
   expressShippingFee: 18,

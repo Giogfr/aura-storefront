@@ -119,11 +119,6 @@ export interface StoreConfig {
     enabled: boolean;
     messages: string[];
   };
-  currency: {
-    symbol: string;
-    code: string;
-    rate: number;
-  };
   freeShippingThreshold: number;
   standardShippingFee: number;
   expressShippingFee: number;
