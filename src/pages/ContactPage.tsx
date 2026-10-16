@@ -29,7 +29,7 @@ export const ContactPage: React.FC = () => {
         <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
           Customer Concierge
         </span>
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading">
+        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-heading">
           Get in Touch
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500">
@@ -45,7 +45,7 @@ export const ContactPage: React.FC = () => {
               <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-neutral-900 font-serif-heading">
+              <h3 className="text-xl font-bold text-neutral-900 font-heading">
                 Message Received
               </h3>
               <p className="text-xs text-neutral-600 max-w-sm mx-auto">
@@ -170,7 +170,7 @@ export const ContactPage: React.FC = () => {
         {/* Contact Info & Details (lg:col-span-5) */}
         <div className="lg:col-span-5 space-y-8">
           <div className="space-y-6">
-            <h2 className="text-lg font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-lg font-bold text-neutral-900 font-heading">
               Studio Headquarters
             </h2>
 

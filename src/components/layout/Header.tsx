@@ -386,7 +386,7 @@ export const Header: React.FC = () => {
                 onClick={() => navigateTo('home')}
                 className="group focus:outline-hidden text-center"
               >
-                <span className="text-xl sm:text-2xl font-black tracking-widest text-neutral-900 font-serif-heading block">
+                <span className="text-xl sm:text-2xl font-black tracking-widest text-neutral-900 font-heading block">
                   {storeConfig.storeName}
                 </span>
                 <span className="hidden sm:block text-[9px] uppercase tracking-[0.25em] text-neutral-400 -mt-1 font-sans group-hover:text-neutral-600 transition-colors">

@@ -68,7 +68,7 @@ export const CartPage: React.FC = () => {
           <div className="w-20 h-20 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-400 mx-auto mb-6">
             <ShoppingBag className="w-10 h-10" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading mb-3">
+          <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading mb-3">
             Your Bag is Empty
           </h1>
           <p className="text-xs sm:text-sm text-neutral-500 mb-8 leading-relaxed">
@@ -92,7 +92,7 @@ export const CartPage: React.FC = () => {
       <Breadcrumbs items={[{ label: 'Shopping Bag' }]} />
 
       <div className="py-6 border-b border-neutral-200 flex items-baseline justify-between">
-        <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900 font-serif-heading">
+        <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900 font-heading">
           Shopping Bag ({cart.reduce((s, i) => s + i.quantity, 0)})
         </h1>
         <button
@@ -257,7 +257,7 @@ export const CartPage: React.FC = () => {
         {/* Right: Order Summary Card (lg:col-span-4) */}
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-neutral-50 border border-neutral-200/80 rounded-lg p-6 space-y-4">
-            <h2 className="text-base font-bold text-neutral-900 font-serif-heading border-b border-neutral-200 pb-3">
+            <h2 className="text-base font-bold text-neutral-900 font-heading border-b border-neutral-200 pb-3">
               Order Summary
             </h2>
 

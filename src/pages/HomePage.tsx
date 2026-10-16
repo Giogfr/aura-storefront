@@ -68,7 +68,7 @@ export const HomePage: React.FC = () => {
               <span>{promoBanners.hero.badge}</span>
             </span>
 
-            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-white leading-tight font-serif-heading">
+            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-white leading-tight font-heading">
               {promoBanners.hero.title}
             </h1>
 
@@ -105,7 +105,7 @@ export const HomePage: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
               Curated Catalog
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading">
               Shop by Category
             </h2>
           </div>
@@ -157,7 +157,7 @@ export const HomePage: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
               Handpicked Essentials
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading">
               Featured Products
             </h2>
           </div>
@@ -219,7 +219,7 @@ export const HomePage: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 block">
               {promoBanners.editorial.badge}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading leading-snug">
+            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading leading-snug">
               {promoBanners.editorial.title}
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
@@ -246,7 +246,7 @@ export const HomePage: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
               Just Released
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading">
               New Season Arrivals
             </h2>
           </div>
@@ -270,7 +270,7 @@ export const HomePage: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
               Customer Favorites
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading">
               Our Bestselling Staples
             </h2>
             <p className="text-xs text-neutral-500 mt-2">
@@ -299,7 +299,7 @@ export const HomePage: React.FC = () => {
             <span className="text-[11px] font-bold tracking-widest uppercase bg-white/20 px-3 py-1 rounded-full backdrop-blur-xs">
               {promoBanners.largeCollectionBanner.badge}
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white font-serif-heading">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white font-heading">
               {promoBanners.largeCollectionBanner.title}
             </h2>
             <p className="text-xs sm:text-sm text-neutral-200">
@@ -343,7 +343,7 @@ export const HomePage: React.FC = () => {
             <Instagram className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-wider">@aura.studio</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 font-serif-heading">
+          <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 font-heading">
             Seen in Daily Life
           </h2>
           <p className="text-xs text-neutral-500 mt-1">

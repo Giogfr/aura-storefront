@@ -16,7 +16,7 @@ export const AboutPage: React.FC = () => {
         <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
           Philosophy & Provenance
         </span>
-        <h1 className="text-3xl sm:text-5xl font-bold text-neutral-900 font-serif-heading leading-tight">
+        <h1 className="text-3xl sm:text-5xl font-bold text-neutral-900 font-heading leading-tight">
           Quiet Luxury Crafted for the Considered Life
         </h1>
         <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
@@ -58,7 +58,7 @@ export const AboutPage: React.FC = () => {
           <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 block mb-1">
             Our Commitments
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading">
             Four Foundational Principles
           </h2>
         </div>
@@ -108,7 +108,7 @@ export const AboutPage: React.FC = () => {
 
       {/* CTA Section */}
       <section className="bg-neutral-50 border border-neutral-200/80 rounded-xl p-8 sm:p-14 text-center max-w-3xl mx-auto space-y-4">
-        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading">
+        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading">
           Explore the Current Capsule
         </h2>
         <p className="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto">

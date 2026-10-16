@@ -34,7 +34,7 @@ export const SearchResultsPage: React.FC = () => {
       <Breadcrumbs items={[{ label: 'Search Results' }]} />
 
       <div className="py-8 sm:py-12 max-w-2xl mx-auto text-center border-b border-neutral-200">
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading mb-4">
+        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-heading mb-4">
           Search Storefront
         </h1>
 

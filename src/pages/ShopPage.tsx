@@ -194,7 +194,7 @@ export const ShopPage: React.FC = () => {
           <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
             {curationLabel ? `Curated \u00b7 ${curationLabel}` : 'Collection Directory'}
           </span>
-          <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading mb-2">
+          <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-heading mb-2">
             {pageTitle}
           </h1>
           <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed">

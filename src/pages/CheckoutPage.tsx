@@ -100,7 +100,7 @@ export const CheckoutPage: React.FC = () => {
         <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 block mb-1">
           Demo Order Confirmed
         </span>
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading mb-2">
+        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-heading mb-2">
           Thank you, {firstName}!
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500 mb-6 max-w-md mx-auto leading-relaxed">
@@ -149,7 +149,7 @@ export const CheckoutPage: React.FC = () => {
         <div className="w-16 h-16 rounded-full bg-neutral-100 text-neutral-400 flex items-center justify-center mx-auto mb-6">
           <Package className="w-8 h-8" />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading mb-2">
+        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-heading mb-2">
           Your bag is empty
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500 mb-8 max-w-md mx-auto leading-relaxed">
@@ -173,7 +173,7 @@ export const CheckoutPage: React.FC = () => {
         <button
           type="button"
           onClick={() => navigateTo('home')}
-          className="text-xl font-black tracking-widest text-neutral-900 font-serif-heading"
+          className="text-xl font-black tracking-widest text-neutral-900 font-heading"
         >
           {storeConfig.storeName}
         </button>
@@ -536,7 +536,7 @@ export const CheckoutPage: React.FC = () => {
         {/* Right Column: Sticky Order Summary (lg:col-span-5) */}
         <div className="hidden lg:block lg:col-span-5 bg-neutral-50 p-8 lg:p-10 border-l border-neutral-200">
           <div className="sticky top-20 space-y-6">
-            <h2 className="text-base font-bold text-neutral-900 font-serif-heading border-b border-neutral-200 pb-3">
+            <h2 className="text-base font-bold text-neutral-900 font-heading border-b border-neutral-200 pb-3">
               Order Items ({cart.reduce((s, i) => s + i.quantity, 0)})
             </h2>
 

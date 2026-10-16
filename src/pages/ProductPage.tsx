@@ -280,7 +280,7 @@ export const ProductPage: React.FC = () => {
               </div>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading leading-tight mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading leading-tight mb-2">
               {product.title}
             </h1>
 
@@ -574,7 +574,7 @@ export const ProductPage: React.FC = () => {
       <section className="mt-20 pt-12 border-t border-neutral-200">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 font-heading">
               Customer Reviews
             </h2>
             <div className="flex items-center gap-2 mt-1">
@@ -648,7 +648,7 @@ export const ProductPage: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
               Complementary Pieces
             </span>
-            <h2 className="text-2xl font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-2xl font-bold text-neutral-900 font-heading">
               Related in {product.categoryName}
             </h2>
           </div>
@@ -663,7 +663,7 @@ export const ProductPage: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
               Your Session History
             </span>
-            <h2 className="text-2xl font-bold text-neutral-900 font-serif-heading">
+            <h2 className="text-2xl font-bold text-neutral-900 font-heading">
               Recently Viewed
             </h2>
           </div>

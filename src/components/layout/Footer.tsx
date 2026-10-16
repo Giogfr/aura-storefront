@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
             <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 block mb-2">
               Stay Connected
             </span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 font-serif-heading">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 font-heading">
               Join the Studio Inner Circle
             </h3>
             <p className="text-xs sm:text-sm text-neutral-400 max-w-md">
@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
         <div className="py-14 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Col 1: Store Intro */}
           <div className="col-span-2 lg:col-span-1 space-y-3">
-            <span className="text-xl font-black tracking-widest text-white font-serif-heading block">
+            <span className="text-xl font-black tracking-widest text-white font-heading block">
               {storeConfig.storeName}
             </span>
             <p className="text-xs text-neutral-400 leading-relaxed pr-4">

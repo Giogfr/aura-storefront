@@ -16,7 +16,7 @@ export const NotFoundPage: React.FC = () => {
         Error 404
       </span>
 
-      <h1 className="text-3xl sm:text-5xl font-bold text-neutral-900 font-serif-heading mb-3">
+      <h1 className="text-3xl sm:text-5xl font-bold text-neutral-900 font-heading mb-3">
         Page Not Found
       </h1>
 

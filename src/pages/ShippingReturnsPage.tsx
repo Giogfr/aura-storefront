@@ -15,7 +15,7 @@ export const ShippingReturnsPage: React.FC = () => {
         <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
           Delivery & Exchange Terms
         </span>
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading">
+        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-heading">
           Shipping & Returns
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500">
@@ -52,7 +52,7 @@ export const ShippingReturnsPage: React.FC = () => {
 
       {/* Shipping Methods Table */}
       <div className="space-y-4 pt-4">
-        <h2 className="text-xl font-bold text-neutral-900 font-serif-heading">
+        <h2 className="text-xl font-bold text-neutral-900 font-heading">
           Shipping Options & Delivery Timelines
         </h2>
         <div className="overflow-x-auto">
@@ -97,7 +97,7 @@ export const ShippingReturnsPage: React.FC = () => {
 
       {/* Return Procedure */}
       <div className="space-y-6 pt-4 border-t border-neutral-200">
-        <h2 className="text-xl font-bold text-neutral-900 font-serif-heading">
+        <h2 className="text-xl font-bold text-neutral-900 font-heading">
           How to Initiate a Return or Exchange
         </h2>
 
@@ -140,7 +140,7 @@ export const ShippingReturnsPage: React.FC = () => {
 
       {/* Need Assistance CTA */}
       <div className="p-8 bg-neutral-900 text-white rounded-xl text-center space-y-4">
-        <h3 className="text-xl font-bold font-serif-heading">Have an exchange question?</h3>
+        <h3 className="text-xl font-bold font-heading">Have an exchange question?</h3>
         <p className="text-xs text-neutral-300 max-w-md mx-auto">
           Our customer service team is on hand Monday through Friday, 9:00am - 6:00pm EST to assist with fitting, tracking, and courier arrangements.
         </p>

@@ -34,7 +34,7 @@ export const FaqPage: React.FC = () => {
         <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
           Customer Guidance
         </span>
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading">
+        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-heading">
           Frequently Asked Questions
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500">

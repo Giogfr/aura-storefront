@@ -18,7 +18,7 @@ export const CollectionsPage: React.FC = () => {
           <Sparkles className="w-3 h-3" />
           <span>Curated Disciplines</span>
         </span>
-        <h1 className="text-3xl sm:text-5xl font-bold text-neutral-900 font-serif-heading mb-3">
+        <h1 className="text-3xl sm:text-5xl font-bold text-neutral-900 font-heading mb-3">
           All Collections
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed">
@@ -50,7 +50,7 @@ export const CollectionsPage: React.FC = () => {
               <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-300">
                 {category.productCount} Products
               </span>
-              <h2 className="text-2xl font-bold font-serif-heading">
+              <h2 className="text-2xl font-bold font-heading">
                 {category.name}
               </h2>
               <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed">

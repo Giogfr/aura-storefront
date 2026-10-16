@@ -55,7 +55,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
       {activeTab === 'privacy' ? (
         <article className="prose prose-neutral max-w-none text-xs sm:text-sm text-neutral-700 space-y-6 leading-relaxed">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading mb-2">
               Privacy & Data Policy
             </h1>
             <p className="text-neutral-400 text-xs">
@@ -94,7 +94,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
       ) : (
         <article className="prose prose-neutral max-w-none text-xs sm:text-sm text-neutral-700 space-y-6 leading-relaxed">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-serif-heading mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading mb-2">
               Terms & Conditions of Service
             </h1>
             <p className="text-neutral-400 text-xs">

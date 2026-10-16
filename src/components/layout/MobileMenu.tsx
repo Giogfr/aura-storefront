@@ -45,7 +45,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       <div className="relative w-full max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-left">
         {/* Header */}
         <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
-          <span className="text-lg font-black tracking-widest text-neutral-900 font-serif-heading">
+          <span className="text-lg font-black tracking-widest text-neutral-900 font-heading">
             {storeConfig.storeName}
           </span>
           <button
