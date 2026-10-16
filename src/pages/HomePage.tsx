@@ -252,7 +252,7 @@ export const HomePage: React.FC = () => {
           </div>
           <button
             type="button"
-            onClick={() => navigateTo('shop', { searchQuery: 'new' })}
+            onClick={() => navigateTo('shop', { curationFilter: 'new' })}
             className="text-xs font-semibold text-neutral-900 hover:text-neutral-600 flex items-center gap-1 group p-1"
           >
             <span>View All New</span>
