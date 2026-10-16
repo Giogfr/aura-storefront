@@ -186,10 +186,11 @@ export const SearchOverlay: React.FC = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {matchingProducts.map((product) => (
-                      <div
+                      <button
                         key={product.id}
+                        type="button"
                         onClick={() => handleProductClick(product.id)}
-                        className="flex gap-3 p-2.5 rounded-lg border border-neutral-200/80 hover:border-neutral-900 hover:shadow-xs cursor-pointer transition-all bg-white group"
+                        className="flex gap-3 p-2.5 rounded-lg border border-neutral-200/80 hover:border-neutral-900 hover:shadow-xs cursor-pointer transition-all bg-white group text-left w-full"
                       >
                         <img
                           src={product.images[0]}
@@ -211,7 +212,7 @@ export const SearchOverlay: React.FC = () => {
                             {formatPrice(product.price)}
                           </span>
                         </div>
-                      </div>
+                      </button>
                     ))}
                   </div>
 
