@@ -4,19 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#171717" />
+    <meta name="color-scheme" content="light" />
     <title>AURA — Modern Ecommerce Storefront Template</title>
     <meta
       name="description"
       content="A polished, modern, and highly modular ecommerce storefront template with responsive product grids, filtering, rich product pages, cart, wishlist, and a simulated checkout. Built with React, TypeScript, Vite, and Tailwind CSS."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:site_name" content="AURA" />
     <meta property="og:title" content="AURA — Modern Ecommerce Storefront Template" />
     <meta
       property="og:description"
       content="A polished, modern, and highly modular ecommerce storefront template with responsive product grids, filtering, rich product pages, cart, wishlist, and a simulated checkout."
     />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:url" content="https://aura-storefront-gio.vercel.app/" />
+    <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -26,6 +30,12 @@
   </head>
   <body class="bg-[#fafafa] text-neutral-900 antialiased selection:bg-neutral-900 selection:text-white">
     <div id="root"></div>
+    <noscript>
+      <div style="max-width: 32rem; margin: 4rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; text-align: center; color: #171717;">
+        <h1 style="letter-spacing: 0.2em;">AURA</h1>
+        <p>This storefront is a React application and requires JavaScript. Please enable it to browse the catalog.</p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
