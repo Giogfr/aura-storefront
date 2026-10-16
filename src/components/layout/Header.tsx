@@ -59,6 +59,16 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close the currency menu on Escape
+  useEffect(() => {
+    if (!currencyMenuOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setCurrencyMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [currencyMenuOpen]);
+
   const handleMenuEnter = () => {
     if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
     setShopMenuOpen(true);
@@ -80,7 +90,7 @@ export const Header: React.FC = () => {
       {/* Top Announcement Bar */}
       {storeConfig.announcementBar.enabled && (
         <div
-          className="bg-neutral-950 text-neutral-300 text-[11px] sm:text-xs py-2 px-4 relative z-30 transition-colors"
+          className="bg-neutral-950 text-neutral-300 text-[11px] sm:text-xs py-2 px-4 relative z-[45] transition-colors"
           onMouseEnter={() => setIsAnnouncementPaused(true)}
           onMouseLeave={() => setIsAnnouncementPaused(false)}
         >
@@ -92,10 +102,12 @@ export const Header: React.FC = () => {
                 onClick={() => setCurrencyMenuOpen(!currencyMenuOpen)}
                 className="flex items-center gap-1.5 text-neutral-400 hover:text-white transition-colors cursor-pointer"
                 aria-label="Select currency"
+                aria-haspopup="listbox"
+                aria-expanded={currencyMenuOpen}
               >
-                <Globe className="w-3 h-3" />
+                <Globe className="w-3 h-3" aria-hidden="true" />
                 <span className="font-medium">{activeCurrency.code} ({activeCurrency.symbol})</span>
-                <ChevronDown className="w-3 h-3 opacity-70" />
+                <ChevronDown className={`w-3 h-3 transition-transform ${currencyMenuOpen ? 'rotate-180' : 'opacity-70'}`} aria-hidden="true" />
               </button>
 
               {currencyMenuOpen && (
@@ -103,17 +115,23 @@ export const Header: React.FC = () => {
                   <div
                     className="fixed inset-0 z-40"
                     onClick={() => setCurrencyMenuOpen(false)}
+                    aria-hidden="true"
                   />
-                  <div className="absolute top-full left-0 mt-1.5 w-36 bg-neutral-900 border border-neutral-800 rounded shadow-xl py-1 z-50 animate-fade-in">
+                  <div
+                    role="listbox"
+                    aria-label="Available currencies"
+                    className="absolute top-full left-0 mt-1.5 w-36 bg-neutral-900 border border-neutral-800 rounded shadow-xl py-1 z-50 animate-fade-in"
+                  >
                     {availableCurrencies.map((curr) => (
                       <button
                         key={curr.code}
                         type="button"
+                        role="option"
+                        aria-selected={activeCurrency.code === curr.code}
                         onClick={() => {
                           setActiveCurrency(curr);
                           setCurrencyMenuOpen(false);
                         }}
-                        aria-pressed={activeCurrency.code === curr.code}
                         className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-neutral-800 transition-colors ${
                           activeCurrency.code === curr.code ? 'text-white font-bold bg-neutral-800/50' : 'text-neutral-400'
                         }`}
@@ -258,7 +276,7 @@ export const Header: React.FC = () => {
                             type="button"
                             onClick={() => {
                               setShopMenuOpen(false);
-                              navigateTo('shop', { searchQuery: 'sale' });
+                              navigateTo('shop', { curationFilter: 'sale' });
                             }}
                             className="block text-xs text-rose-600 font-semibold hover:underline text-left w-full"
                           >
@@ -268,7 +286,7 @@ export const Header: React.FC = () => {
                             type="button"
                             onClick={() => {
                               setShopMenuOpen(false);
-                              navigateTo('shop', { searchQuery: 'new' });
+                              navigateTo('shop', { curationFilter: 'new' });
                             }}
                             className="block text-xs text-neutral-700 hover:text-neutral-900 text-left w-full"
                           >
@@ -278,7 +296,7 @@ export const Header: React.FC = () => {
                             type="button"
                             onClick={() => {
                               setShopMenuOpen(false);
-                              navigateTo('shop', { searchQuery: 'bestseller' });
+                              navigateTo('shop', { curationFilter: 'bestseller' });
                             }}
                             className="block text-xs text-neutral-700 hover:text-neutral-900 text-left w-full"
                           >
