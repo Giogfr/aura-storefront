@@ -121,18 +121,11 @@ export const HomePage: React.FC = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           {categoriesData.map((cat) => (
-            <div
+            <button
               key={cat.id}
-              role="button"
-              tabIndex={0}
+              type="button"
               onClick={() => navigateTo('shop', { categoryId: cat.id })}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  navigateTo('shop', { categoryId: cat.id });
-                }
-              }}
-              className="group cursor-pointer flex flex-col focus:outline-hidden focus:ring-2 focus:ring-neutral-900 rounded p-1"
+              className="group cursor-pointer flex flex-col text-left focus:outline-hidden focus:ring-2 focus:ring-neutral-900 rounded p-1"
             >
               <div className="relative aspect-[4/5] rounded overflow-hidden bg-neutral-100 mb-2.5">
                 <img
@@ -152,7 +145,7 @@ export const HomePage: React.FC = () => {
               <span className="text-[11px] text-neutral-400 font-medium">
                 {cat.productCount} Items
               </span>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -329,8 +322,8 @@ export const HomePage: React.FC = () => {
       {/* 8. Store Benefits Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8 border-y border-neutral-200">
-          {storeBenefits.map((benefit, index) => (
-            <div key={index} className="flex items-start gap-4 p-2">
+          {storeBenefits.map((benefit) => (
+            <div key={benefit.title} className="flex items-start gap-4 p-2">
               <div className="w-11 h-11 rounded-full bg-neutral-100 flex items-center justify-center shrink-0">
                 {getBenefitIcon(benefit.icon)}
               </div>
@@ -360,18 +353,11 @@ export const HomePage: React.FC = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {instagramPosts.map((post) => (
-            <div
+            <button
               key={post.id}
-              role="button"
-              tabIndex={0}
+              type="button"
               onClick={() => navigateTo('product', { productId: post.productId })}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  navigateTo('product', { productId: post.productId });
-                }
-              }}
-              className="group relative aspect-square rounded overflow-hidden bg-neutral-100 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-neutral-900"
+              className="group relative block w-full aspect-square rounded overflow-hidden bg-neutral-100 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-neutral-900 text-left p-0"
             >
               <img
                 src={post.image}
@@ -389,7 +375,7 @@ export const HomePage: React.FC = () => {
                   <span>Shop Look</span>
                 </span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
