@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
   const [announcementIndex, setAnnouncementIndex] = useState(0);
   const [isAnnouncementPaused, setIsAnnouncementPaused] = useState(false);
 
-  const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const menuTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Rotate announcement messages
   useEffect(() => {
@@ -113,12 +113,13 @@ export const Header: React.FC = () => {
                           setActiveCurrency(curr);
                           setCurrencyMenuOpen(false);
                         }}
+                        aria-pressed={activeCurrency.code === curr.code}
                         className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-neutral-800 transition-colors ${
                           activeCurrency.code === curr.code ? 'text-white font-bold bg-neutral-800/50' : 'text-neutral-400'
                         }`}
                       >
                         <span>{curr.label}</span>
-                        {activeCurrency.code === curr.code && <span className="text-[10px] text-emerald-400">✓</span>}
+                        {activeCurrency.code === curr.code && <span className="text-[10px] text-emerald-400" aria-hidden="true">✓</span>}
                       </button>
                     ))}
                   </div>
@@ -297,12 +298,13 @@ export const Header: React.FC = () => {
                       </div>
 
                       {/* Col 3: Visual highlight card */}
-                      <div
+                      <button
+                        type="button"
                         onClick={() => {
                           setShopMenuOpen(false);
                           navigateTo('product', { productId: featuredMegaItem.id });
                         }}
-                        className="bg-neutral-50 p-3.5 rounded-lg border border-neutral-100 hover:border-neutral-300 transition-all cursor-pointer group/card flex flex-col justify-between"
+                        className="bg-neutral-50 p-3.5 rounded-lg border border-neutral-100 hover:border-neutral-300 transition-all cursor-pointer group/card flex flex-col justify-between text-left"
                       >
                         <div className="aspect-[4/3] w-full overflow-hidden rounded bg-neutral-200 mb-2.5">
                           <img
@@ -322,7 +324,7 @@ export const Header: React.FC = () => {
                             {formatPrice(featuredMegaItem.price)}
                           </span>
                         </div>
-                      </div>
+                      </button>
                     </div>
                   )}
                 </div>
