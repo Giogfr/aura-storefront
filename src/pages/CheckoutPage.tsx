@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useStore } from '../context/StoreContext';
 import { storeConfig } from '../data/storeConfig';
 import {
@@ -34,6 +34,24 @@ export const CheckoutPage: React.FC = () => {
   const [step, setStep] = useState<'information' | 'shipping' | 'payment'>('information');
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const stepOrder = ['information', 'shipping', 'payment'] as const;
+  const stepIndex = stepOrder.indexOf(step);
+  const canGoToStep = (target: (typeof stepOrder)[number]) => stepOrder.indexOf(target) <= stepIndex;
+
+  const goToStep = (target: (typeof stepOrder)[number]) => {
+    if (!canGoToStep(target)) return;
+    setStep(target);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const continueFrom = (current: 'information' | 'shipping') => {
+    const form = formRef.current;
+    if (form && !form.reportValidity()) return;
+    setStep(current === 'information' ? 'shipping' : 'payment');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Mobile order summary accordion
   const [mobileSummaryOpen, setMobileSummaryOpen] = useState(false);
@@ -237,7 +255,7 @@ export const CheckoutPage: React.FC = () => {
         {/* Left Column: Form & Stepper (lg:col-span-7) */}
         <div className="lg:col-span-7 p-6 sm:p-10 lg:pr-14 space-y-8">
           {/* Breadcrumb Steps */}
-          <nav className="flex items-center gap-2 text-xs font-medium text-neutral-400">
+          <nav aria-label="Checkout progress" className="flex items-center gap-2 text-xs font-medium text-neutral-400">
             <button
               type="button"
               onClick={() => navigateTo('cart')}
@@ -245,27 +263,33 @@ export const CheckoutPage: React.FC = () => {
             >
               Cart
             </button>
-            <span>/</span>
+            <span aria-hidden="true">/</span>
             <button
               type="button"
-              onClick={() => setStep('information')}
-              className={step === 'information' ? 'text-neutral-900 font-bold' : 'text-neutral-600'}
+              onClick={() => goToStep('information')}
+              disabled={!canGoToStep('information')}
+              aria-current={step === 'information' ? 'step' : undefined}
+              className={step === 'information' ? 'text-neutral-900 font-bold' : 'text-neutral-600 hover:text-neutral-900'}
             >
               Information
             </button>
-            <span>/</span>
+            <span aria-hidden="true">/</span>
             <button
               type="button"
-              onClick={() => setStep('shipping')}
-              className={step === 'shipping' ? 'text-neutral-900 font-bold' : 'text-neutral-600'}
+              onClick={() => goToStep('shipping')}
+              disabled={!canGoToStep('shipping')}
+              aria-current={step === 'shipping' ? 'step' : undefined}
+              className={step === 'shipping' ? 'text-neutral-900 font-bold' : 'text-neutral-600 hover:text-neutral-900 disabled:text-neutral-400 disabled:cursor-not-allowed'}
             >
               Shipping
             </button>
-            <span>/</span>
+            <span aria-hidden="true">/</span>
             <button
               type="button"
-              onClick={() => setStep('payment')}
-              className={step === 'payment' ? 'text-neutral-900 font-bold' : 'text-neutral-600'}
+              onClick={() => goToStep('payment')}
+              disabled={!canGoToStep('payment')}
+              aria-current={step === 'payment' ? 'step' : undefined}
+              className={step === 'payment' ? 'text-neutral-900 font-bold' : 'text-neutral-600 hover:text-neutral-900 disabled:text-neutral-400 disabled:cursor-not-allowed'}
             >
               Payment
             </button>
@@ -308,8 +332,9 @@ export const CheckoutPage: React.FC = () => {
             </div>
           </div>
 
-          <form onSubmit={handlePlaceOrder} className="space-y-6">
+          <form ref={formRef} onSubmit={handlePlaceOrder} className="space-y-6">
             {/* Step 1: Contact & Shipping Address */}
+            {step === 'information' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-base font-bold text-neutral-900">Contact Information</h2>
@@ -416,9 +441,21 @@ export const CheckoutPage: React.FC = () => {
                 aria-label="Mobile phone"
                 className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
               />
+
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => continueFrom('information')}
+                  className="w-full py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider rounded transition-colors min-h-[44px]"
+                >
+                  Continue to Shipping
+                </button>
+              </div>
             </div>
+            )}
 
             {/* Step 2: Shipping Method */}
+            {step === 'shipping' && (
             <div className="pt-4 space-y-3">
               <h2 className="text-base font-bold text-neutral-900">Delivery Method</h2>
 
@@ -463,11 +500,33 @@ export const CheckoutPage: React.FC = () => {
                   <span className="font-bold text-neutral-900">{formatPrice(storeConfig.expressShippingFee)}</span>
                 </label>
               </div>
+
+              <div className="flex items-center gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => goToStep('information')}
+                  className="py-3.5 px-6 border border-neutral-300 text-neutral-800 hover:border-neutral-900 text-xs font-semibold uppercase tracking-wider rounded transition-colors min-h-[44px]"
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  onClick={() => continueFrom('shipping')}
+                  className="flex-1 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider rounded transition-colors min-h-[44px]"
+                >
+                  Continue to Payment
+                </button>
+              </div>
             </div>
+            )}
 
             {/* Step 3: Payment Section */}
+            {step === 'payment' && (
             <div className="pt-4 space-y-4">
               <h2 className="text-base font-bold text-neutral-900">Payment Selection</h2>
+              <p className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">
+                Demo only — this storefront never processes payments. Do not enter real card details.
+              </p>
               <div className="border border-neutral-300 rounded-lg overflow-hidden text-xs">
                 <div className="p-3.5 bg-neutral-50 border-b border-neutral-200 flex items-center justify-between">
                   <div className="flex items-center gap-2 font-semibold text-neutral-900">
@@ -518,18 +577,25 @@ export const CheckoutPage: React.FC = () => {
                   />
                 </div>
               </div>
-            </div>
 
-            {/* Submit Place Order Button */}
-            <div className="pt-6">
-              <button
-                type="submit"
-                className="w-full py-4 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider rounded transition-colors flex items-center justify-center gap-2 shadow-md min-h-[44px]"
-              >
-                <Lock className="w-4 h-4" />
-                <span>Place Demo Order · {formatPrice(grandTotal)}</span>
-              </button>
+              <div className="flex items-center gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => goToStep('shipping')}
+                  className="py-3.5 px-6 border border-neutral-300 text-neutral-800 hover:border-neutral-900 text-xs font-semibold uppercase tracking-wider rounded transition-colors min-h-[44px]"
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-4 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider rounded transition-colors flex items-center justify-center gap-2 shadow-md min-h-[44px]"
+                >
+                  <Lock className="w-4 h-4" />
+                  <span>Place Demo Order · {formatPrice(grandTotal)}</span>
+                </button>
+              </div>
             </div>
+            )}
           </form>
         </div>
 
