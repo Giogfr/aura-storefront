@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../context/StoreContext';
 import { storeConfig } from '../data/storeConfig';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -12,6 +12,12 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
   const [activeTab, setActiveTab] = useState<'privacy' | 'terms'>(
     currentPage === 'terms' ? 'terms' : initialTab
   );
+
+  useEffect(() => {
+    if (currentPage === 'privacy-policy' || currentPage === 'terms') {
+      setActiveTab(currentPage === 'terms' ? 'terms' : 'privacy');
+    }
+  }, [currentPage]);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-8">
@@ -53,7 +59,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
       </p>
 
       {activeTab === 'privacy' ? (
-        <article className="prose prose-neutral max-w-none text-xs sm:text-sm text-neutral-700 space-y-6 leading-relaxed">
+        <article className="max-w-none text-xs sm:text-sm text-neutral-700 space-y-6 leading-relaxed">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading mb-2">
               Privacy & Data Policy
@@ -66,7 +72,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
           <section className="space-y-2">
             <h2 className="text-base font-bold text-neutral-900">1. Information We Collect</h2>
             <p>
-              When you visit {storeConfig.storeName}, make a purchase, or create an account, we collect device identifiers, browsing behavior, shipping addresses, payment details, and email addresses solely to fulfill your orders and improve the store experience.
+              When you visit {storeConfig.storeName}, make a purchase, or create an account, we collect device identifiers, browsing behavior, shipping addresses, and email addresses solely to fulfill your orders and improve the store experience.
             </p>
           </section>
 
@@ -80,7 +86,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
           <section className="space-y-2">
             <h2 className="text-base font-bold text-neutral-900">3. Security & Payment Encryption</h2>
             <p>
-              All transactions are encrypted utilizing industry-standard 256-Bit Secure Sockets Layer (SSL) technology. Credit card numbers are tokenized by PCI-DSS Level 1 compliant gateway processors and are never stored directly on our servers.
+              All transactions are encrypted utilizing industry-standard 256-Bit Secure Sockets Layer (SSL) technology, and card details would be tokenized by PCI-DSS compliant gateway processors rather than stored on our servers. In this open-source template the checkout is fully simulated, so no payment data is collected or transmitted.
             </p>
           </section>
 
@@ -92,7 +98,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ initialTab = 'privacy' }) 
           </section>
         </article>
       ) : (
-        <article className="prose prose-neutral max-w-none text-xs sm:text-sm text-neutral-700 space-y-6 leading-relaxed">
+        <article className="max-w-none text-xs sm:text-sm text-neutral-700 space-y-6 leading-relaxed">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 font-heading mb-2">
               Terms & Conditions of Service
