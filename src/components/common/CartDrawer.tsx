@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { storeConfig } from '../../data/storeConfig';
 import { productsData } from '../../data/products';
-import { X, Trash2, ShoppingBag, ArrowRight, Truck, Tag, Plus, Check, Copy } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ArrowRight, Truck, Tag, Plus, Check } from 'lucide-react';
 
 export const CartDrawer: React.FC = () => {
   const {
