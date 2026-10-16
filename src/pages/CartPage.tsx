@@ -10,7 +10,6 @@ import {
   Lock,
   ShoppingBag,
   Tag,
-  Copy,
 } from 'lucide-react';
 
 export const CartPage: React.FC = () => {
