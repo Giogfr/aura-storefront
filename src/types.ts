@@ -17,6 +17,7 @@ export interface RouteParams {
   productId?: string;
   categoryId?: string;
   searchQuery?: string;
+  curationFilter?: 'sale' | 'new' | 'bestseller';
 }
 
 export interface ProductColor {
