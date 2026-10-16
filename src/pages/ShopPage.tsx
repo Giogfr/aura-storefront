@@ -42,6 +42,26 @@ export const ShopPage: React.FC = () => {
     }
   }, [routeParams.categoryId]);
 
+  // Apply a curated deep-link (mega menu / editorial links) as a one-shot filter
+  const curationFilter = routeParams.curationFilter;
+  useEffect(() => {
+    if (!curationFilter) return;
+    setFilters((prev) => {
+      if (curationFilter === 'sale') return { ...prev, onSaleOnly: true };
+      if (curationFilter === 'new') return { ...prev, sortBy: 'newest' };
+      return { ...prev, sortBy: 'rating' };
+    });
+  }, [curationFilter]);
+
+  const curationLabel =
+    curationFilter === 'sale'
+      ? 'Archive Sale'
+      : curationFilter === 'new'
+        ? 'New Season Arrivals'
+        : curationFilter === 'bestseller'
+          ? 'Bestselling Staples'
+          : null;
+
   // Handle escape key and body scroll lock for mobile filter drawer
   useEffect(() => {
     if (!mobileFilterOpen) return;
@@ -172,7 +192,7 @@ export const ShopPage: React.FC = () => {
       <div className="py-6 sm:py-8 border-b border-neutral-200">
         <div className="max-w-3xl">
           <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
-            Collection Directory
+            {curationLabel ? `Curated \u00b7 ${curationLabel}` : 'Collection Directory'}
           </span>
           <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading mb-2">
             {pageTitle}
