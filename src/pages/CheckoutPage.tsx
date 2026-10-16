@@ -28,6 +28,7 @@ export const CheckoutPage: React.FC = () => {
     navigateTo,
     user,
     formatPrice,
+    showToast,
   } = useStore();
 
   // Multi-step progress
@@ -61,13 +62,18 @@ export const CheckoutPage: React.FC = () => {
   // Promo code in checkout
   const [checkoutPromo, setCheckoutPromo] = useState('');
 
-  const shippingCost = shippingMethod === 'express' ? 15 : cartShippingFee;
+  const shippingCost = shippingMethod === 'express' ? storeConfig.expressShippingFee : cartShippingFee;
   const grandTotal = Math.max(0, cartSubtotal - cartDiscountAmount + shippingCost + cartTaxAmount);
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
     if (!checkoutPromo.trim()) return;
-    applyDiscount(checkoutPromo);
+    const res = applyDiscount(checkoutPromo);
+    if (res.success) {
+      showToast('Discount code applied!', 'success');
+    } else {
+      showToast(res.message, 'warning');
+    }
     setCheckoutPromo('');
   };
 
@@ -89,13 +95,13 @@ export const CheckoutPage: React.FC = () => {
           <CheckCircle2 className="w-10 h-10" />
         </div>
         <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 block mb-1">
-          Order Successfully Confirmed
+          Demo Order Confirmed
         </span>
         <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading mb-2">
           Thank you, {firstName}!
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500 mb-6 max-w-md mx-auto leading-relaxed">
-          We've received your order and our fulfillment studio is preparing it for shipment. A detailed receipt has been sent to <strong>{email}</strong>.
+          This is a simulated checkout. No payment was processed and no email is sent — we generated a sample order for <strong>{email}</strong> to demonstrate the confirmation flow.
         </p>
 
         <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6 max-w-md mx-auto text-left text-xs space-y-3 mb-8 shadow-xs">
@@ -116,7 +122,7 @@ export const CheckoutPage: React.FC = () => {
             </span>
           </div>
           <div className="flex justify-between pt-1 font-bold text-neutral-900 text-sm">
-            <span>Total Paid:</span>
+            <span>Order Total:</span>
             <span>{formatPrice(grandTotal)}</span>
           </div>
         </div>
@@ -147,7 +153,7 @@ export const CheckoutPage: React.FC = () => {
         </button>
         <div className="flex items-center gap-1.5 text-xs text-neutral-500">
           <Lock className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Encrypted 256-Bit SSL Checkout</span>
+          <span>Demo checkout — no real payment</span>
         </div>
       </header>
 
@@ -255,7 +261,7 @@ export const CheckoutPage: React.FC = () => {
                 type="button"
                 className="py-2.5 bg-neutral-900 text-white text-xs font-bold rounded flex items-center justify-center hover:bg-neutral-800 min-h-[44px]"
               >
-                 Pay
+                Apple Pay
               </button>
               <button
                 type="button"
@@ -296,6 +302,7 @@ export const CheckoutPage: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email address for receipt and delivery updates"
+                  aria-label="Email address"
                   className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                 />
               </div>
@@ -309,6 +316,7 @@ export const CheckoutPage: React.FC = () => {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="First name"
+                  aria-label="First name"
                   className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                 />
                 <input
@@ -317,6 +325,7 @@ export const CheckoutPage: React.FC = () => {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Last name"
+                  aria-label="Last name"
                   className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                 />
               </div>
@@ -327,6 +336,7 @@ export const CheckoutPage: React.FC = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Street address"
+                aria-label="Street address"
                 className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
               />
 
@@ -335,6 +345,7 @@ export const CheckoutPage: React.FC = () => {
                 value={apartment}
                 onChange={(e) => setApartment(e.target.value)}
                 placeholder="Apartment, suite, unit (optional)"
+                aria-label="Apartment, suite, or unit (optional)"
                 className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
               />
 
@@ -345,6 +356,7 @@ export const CheckoutPage: React.FC = () => {
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   placeholder="City"
+                  aria-label="City"
                   className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                 />
                 <input
@@ -353,6 +365,7 @@ export const CheckoutPage: React.FC = () => {
                   value={stateCode}
                   onChange={(e) => setStateCode(e.target.value)}
                   placeholder="State / Region"
+                  aria-label="State or region"
                   className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                 />
                 <input
@@ -361,6 +374,7 @@ export const CheckoutPage: React.FC = () => {
                   value={postalCode}
                   onChange={(e) => setPostalCode(e.target.value)}
                   placeholder="ZIP / Postal"
+                  aria-label="ZIP or postal code"
                   className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                 />
               </div>
@@ -370,6 +384,7 @@ export const CheckoutPage: React.FC = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Mobile phone for delivery notifications"
+                aria-label="Mobile phone"
                 className="w-full px-3.5 py-2.5 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
               />
             </div>
@@ -416,7 +431,7 @@ export const CheckoutPage: React.FC = () => {
                       <span className="text-neutral-500">1–2 business days</span>
                     </div>
                   </div>
-                  <span className="font-bold text-neutral-900">{formatPrice(15)}</span>
+                  <span className="font-bold text-neutral-900">{formatPrice(storeConfig.expressShippingFee)}</span>
                 </label>
               </div>
             </div>
@@ -440,6 +455,7 @@ export const CheckoutPage: React.FC = () => {
                     value={cardNumber}
                     onChange={(e) => setCardNumber(e.target.value)}
                     placeholder="Card number"
+                    aria-label="Card number"
                     className="w-full px-3.5 py-2 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                   />
                   <div className="grid grid-cols-2 gap-3">
@@ -449,6 +465,7 @@ export const CheckoutPage: React.FC = () => {
                       value={cardExpiry}
                       onChange={(e) => setCardExpiry(e.target.value)}
                       placeholder="MM / YY"
+                      aria-label="Card expiry date"
                       className="w-full px-3.5 py-2 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                     />
                     <input
@@ -457,6 +474,7 @@ export const CheckoutPage: React.FC = () => {
                       value={cardCvc}
                       onChange={(e) => setCardCvc(e.target.value)}
                       placeholder="Security code (CVC)"
+                      aria-label="Card security code"
                       className="w-full px-3.5 py-2 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                     />
                   </div>
@@ -466,6 +484,7 @@ export const CheckoutPage: React.FC = () => {
                     value={cardName}
                     onChange={(e) => setCardName(e.target.value)}
                     placeholder="Name on card"
+                    aria-label="Name on card"
                     className="w-full px-3.5 py-2 text-xs border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                   />
                 </div>
@@ -479,7 +498,7 @@ export const CheckoutPage: React.FC = () => {
                 className="w-full py-4 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider rounded transition-colors flex items-center justify-center gap-2 shadow-md min-h-[44px]"
               >
                 <Lock className="w-4 h-4" />
-                <span>Authorize & Pay {formatPrice(grandTotal)}</span>
+                <span>Place Demo Order · {formatPrice(grandTotal)}</span>
               </button>
             </div>
           </form>
@@ -531,6 +550,7 @@ export const CheckoutPage: React.FC = () => {
                 value={checkoutPromo}
                 onChange={(e) => setCheckoutPromo(e.target.value)}
                 placeholder="Gift card or discount code"
+                aria-label="Discount code"
                 className="flex-1 px-3 py-2 text-xs uppercase bg-white border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
               />
               <button
