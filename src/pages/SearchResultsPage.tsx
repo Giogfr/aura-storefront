@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../context/StoreContext';
 import { productsData } from '../data/products';
 import { ProductGrid } from '../components/common/ProductGrid';
@@ -9,6 +9,11 @@ export const SearchResultsPage: React.FC = () => {
   const { routeParams, navigateTo } = useStore();
   const initialQuery = routeParams.searchQuery || '';
   const [query, setQuery] = useState(initialQuery);
+
+  // Keep the input in sync when a new search is triggered from elsewhere
+  useEffect(() => {
+    setQuery(routeParams.searchQuery || '');
+  }, [routeParams.searchQuery]);
 
   const trimmed = query.trim().toLowerCase();
 
@@ -40,9 +45,10 @@ export const SearchResultsPage: React.FC = () => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search keywords, items, or materials..."
+            aria-label="Search products"
             className="w-full pl-10 pr-4 py-3 bg-neutral-50 border border-neutral-300 rounded text-xs text-neutral-900 focus:outline-hidden focus:border-neutral-900 shadow-2xs"
           />
-          <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+          <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" aria-hidden="true" />
         </div>
 
         {/* Popular Tags */}
@@ -51,6 +57,7 @@ export const SearchResultsPage: React.FC = () => {
           {popularSearches.map((term) => (
             <button
               key={term}
+              type="button"
               onClick={() => setQuery(term)}
               className="px-2.5 py-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 rounded-full text-[11px] transition-colors"
             >
