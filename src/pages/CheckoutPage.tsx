@@ -8,8 +8,6 @@ import {
   CreditCard,
   CheckCircle2,
   Tag,
-  ArrowRight,
-  ShieldCheck,
   Package,
 } from 'lucide-react';
 
