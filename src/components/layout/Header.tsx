@@ -140,6 +140,12 @@ export const Header: React.FC = () => {
                         {activeCurrency.code === curr.code && <span className="text-[10px] text-emerald-400" aria-hidden="true">✓</span>}
                       </button>
                     ))}
+                    <div
+                      aria-hidden="true"
+                      className="px-3 py-1.5 mt-0.5 text-[10px] leading-tight text-neutral-500 border-t border-neutral-800"
+                    >
+                      Sample conversion rates — not live FX
+                    </div>
                   </div>
                 </>
               )}
