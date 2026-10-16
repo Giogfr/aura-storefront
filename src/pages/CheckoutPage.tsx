@@ -29,6 +29,7 @@ export const CheckoutPage: React.FC = () => {
     user,
     formatPrice,
     showToast,
+    setIsAccountOpen,
   } = useStore();
 
   // Multi-step progress
@@ -86,6 +87,10 @@ export const CheckoutPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleExpressCheckout = (provider: string) => {
+    showToast(`${provider} express checkout is simulated in this demo.`, 'info');
+  };
+
   const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
 
   if (orderPlaced) {
@@ -136,6 +141,29 @@ export const CheckoutPage: React.FC = () => {
             Continue Shopping
           </button>
         </div>
+      </div>
+    );
+  }
+
+  if (cart.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-20 sm:py-28 text-center animate-fade-in">
+        <div className="w-16 h-16 rounded-full bg-neutral-100 text-neutral-400 flex items-center justify-center mx-auto mb-6">
+          <Package className="w-8 h-8" />
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 font-serif-heading mb-2">
+          Your bag is empty
+        </h1>
+        <p className="text-xs sm:text-sm text-neutral-500 mb-8 max-w-md mx-auto leading-relaxed">
+          Add a few pieces to your bag before heading to checkout.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigateTo('shop')}
+          className="px-8 py-3.5 bg-neutral-900 text-white text-xs font-semibold uppercase tracking-wider rounded hover:bg-neutral-800 transition-colors shadow-xs min-h-[44px]"
+        >
+          Continue Shopping
+        </button>
       </div>
     );
   }
@@ -253,18 +281,21 @@ export const CheckoutPage: React.FC = () => {
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
+                onClick={() => handleExpressCheckout('Shop Pay')}
                 className="py-2.5 bg-[#5a31f4] text-white text-xs font-bold rounded flex items-center justify-center hover:opacity-90 min-h-[44px]"
               >
                 Shop Pay
               </button>
               <button
                 type="button"
+                onClick={() => handleExpressCheckout('Apple Pay')}
                 className="py-2.5 bg-neutral-900 text-white text-xs font-bold rounded flex items-center justify-center hover:bg-neutral-800 min-h-[44px]"
               >
                 Apple Pay
               </button>
               <button
                 type="button"
+                onClick={() => handleExpressCheckout('PayPal')}
                 className="py-2.5 bg-[#ffc439] text-neutral-900 text-xs font-bold rounded flex items-center justify-center hover:opacity-90 min-h-[44px]"
               >
                 PayPal
@@ -287,7 +318,7 @@ export const CheckoutPage: React.FC = () => {
                 {!user && (
                   <button
                     type="button"
-                    onClick={() => navigateTo('cart')}
+                    onClick={() => setIsAccountOpen(true)}
                     className="text-xs text-neutral-500 hover:text-neutral-900 underline"
                   >
                     Already have an account? Sign in
