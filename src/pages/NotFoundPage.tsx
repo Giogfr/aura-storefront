@@ -51,6 +51,7 @@ export const NotFoundPage: React.FC = () => {
           {categoriesData.map((cat) => (
             <button
               key={cat.id}
+              type="button"
               onClick={() => navigateTo('shop', { categoryId: cat.id })}
               className="px-3.5 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-medium rounded-full transition-colors flex items-center gap-1"
             >
