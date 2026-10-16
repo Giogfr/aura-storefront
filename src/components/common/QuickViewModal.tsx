@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { X, Star, Check, ShoppingBag, ArrowRight } from 'lucide-react';
 
@@ -10,6 +10,7 @@ export const QuickViewModal: React.FC = () => {
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+  const closeTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (quickViewProduct) {
@@ -23,15 +24,20 @@ export const QuickViewModal: React.FC = () => {
       setQuantity(1);
       setIsAdded(false);
     }
+    return () => {
+      if (closeTimer.current) window.clearTimeout(closeTimer.current);
+    };
   }, [quickViewProduct]);
 
   if (!quickViewProduct) return null;
+
+  const maxQuantity = quickViewProduct.inventoryCount > 0 ? quickViewProduct.inventoryCount : 1;
 
   const handleAddToCart = () => {
     if (!quickViewProduct.inStock) return;
     addToCart(quickViewProduct, quantity, selectedColor, selectedSize);
     setIsAdded(true);
-    setTimeout(() => {
+    closeTimer.current = window.setTimeout(() => {
       setIsAdded(false);
       closeQuickView();
     }, 600);
@@ -230,7 +236,7 @@ export const QuickViewModal: React.FC = () => {
                   </span>
                   <button
                     type="button"
-                    onClick={() => setQuantity((q) => Math.min(quickViewProduct.inventoryCount || 99, q + 1))}
+                    onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
                     className="w-8 h-8 flex items-center justify-center text-neutral-600 hover:bg-neutral-100 transition-colors"
                     aria-label="Increase quantity"
                   >
