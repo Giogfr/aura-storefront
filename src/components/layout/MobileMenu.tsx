@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { categoriesData, storeConfig } from '../../data/storeConfig';
-import { X, ChevronRight, Search, Heart, User, ShoppingBag, ArrowRight } from 'lucide-react';
+import { PageType, RouteParams } from '../../types';
+import { X, ChevronRight, Search, Heart, User } from 'lucide-react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -22,13 +23,18 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const handleNav = (page: any, params?: any) => {
+  const handleNav = (page: PageType, params?: RouteParams) => {
     onClose();
     navigateTo(page, params);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex lg:hidden">
+    <div
+      className="fixed inset-0 z-50 flex lg:hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobile navigation"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300"
@@ -36,13 +42,14 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       />
 
       {/* Drawer */}
-      <div className="relative w-full max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-300">
+      <div className="relative w-full max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-left">
         {/* Header */}
         <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
           <span className="text-lg font-black tracking-widest text-neutral-900 font-serif-heading">
             {storeConfig.storeName}
           </span>
           <button
+            type="button"
             onClick={onClose}
             aria-label="Close menu"
             className="w-8 h-8 rounded-full hover:bg-neutral-100 flex items-center justify-center text-neutral-600"
@@ -54,6 +61,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         {/* Quick Search shortcut */}
         <div className="p-4 border-b border-neutral-100">
           <button
+            type="button"
             onClick={() => {
               onClose();
               setIsSearchOpen(true);
@@ -69,7 +77,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         <div className="flex-1 overflow-y-auto p-4 space-y-1">
           <div>
             <button
+              type="button"
               onClick={() => setShopExpanded(!shopExpanded)}
+              aria-expanded={shopExpanded}
               className="w-full flex items-center justify-between py-2.5 text-sm font-bold text-neutral-900 hover:text-neutral-600"
             >
               <span>Shop Catalog</span>
@@ -83,6 +93,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             {shopExpanded && (
               <div className="pl-3 pb-2 space-y-2 border-l-2 border-neutral-100 ml-1 mt-1">
                 <button
+                  type="button"
                   onClick={() => handleNav('shop')}
                   className="block text-xs font-semibold text-neutral-900 hover:underline py-1"
                 >
@@ -91,6 +102,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 {categoriesData.map((cat) => (
                   <button
                     key={cat.id}
+                    type="button"
                     onClick={() => handleNav('shop', { categoryId: cat.id })}
                     className="block text-xs text-neutral-600 hover:text-neutral-900 py-1"
                   >
@@ -102,6 +114,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </div>
 
           <button
+            type="button"
             onClick={() => handleNav('collections')}
             className="w-full text-left py-2.5 text-sm font-semibold text-neutral-900 hover:text-neutral-600"
           >
@@ -109,6 +122,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </button>
 
           <button
+            type="button"
             onClick={() => handleNav('about')}
             className="w-full text-left py-2.5 text-sm font-semibold text-neutral-900 hover:text-neutral-600"
           >
@@ -116,6 +130,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </button>
 
           <button
+            type="button"
             onClick={() => handleNav('contact')}
             className="w-full text-left py-2.5 text-sm font-semibold text-neutral-900 hover:text-neutral-600"
           >
@@ -123,6 +138,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </button>
 
           <button
+            type="button"
             onClick={() => handleNav('faq')}
             className="w-full text-left py-2.5 text-sm font-semibold text-neutral-900 hover:text-neutral-600"
           >
@@ -130,6 +146,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </button>
 
           <button
+            type="button"
             onClick={() => handleNav('shipping-returns')}
             className="w-full text-left py-2.5 text-sm font-semibold text-neutral-900 hover:text-neutral-600"
           >
@@ -141,6 +158,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         <div className="p-4 border-t border-neutral-200 bg-neutral-50 space-y-2.5">
           <div className="grid grid-cols-2 gap-2">
             <button
+              type="button"
               onClick={() => {
                 onClose();
                 setIsWishlistOpen(true);
@@ -152,6 +170,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             </button>
 
             <button
+              type="button"
               onClick={() => {
                 onClose();
                 setIsAccountOpen(true);
