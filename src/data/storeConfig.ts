@@ -15,6 +15,7 @@ export const storeConfig: StoreConfig = {
   freeShippingThreshold: 75,
   standardShippingFee: 8,
   expressShippingFee: 18,
+  internationalShippingFee: 25,
   contactEmail: 'care@aurastorefront.com',
   contactPhone: '+1 (800) 492-8721',
   address: '424 Broadway, 4th Floor, SoHo, New York, NY 10013',

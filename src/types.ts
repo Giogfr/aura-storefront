@@ -122,6 +122,7 @@ export interface StoreConfig {
   freeShippingThreshold: number;
   standardShippingFee: number;
   expressShippingFee: number;
+  internationalShippingFee: number;
   contactEmail: string;
   contactPhone: string;
   address: string;
