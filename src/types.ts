@@ -2,7 +2,6 @@ export type PageType =
   | 'home'
   | 'shop'
   | 'collections'
-  | 'collection-detail'
   | 'product'
   | 'search'
   | 'cart'
@@ -12,14 +11,12 @@ export type PageType =
   | 'faq'
   | 'shipping-returns'
   | 'privacy-policy'
-  | 'terms'
-  | 'not-found';
+  | 'terms';
 
 export interface RouteParams {
   productId?: string;
   categoryId?: string;
   searchQuery?: string;
-  pageNumber?: number;
 }
 
 export interface ProductColor {
