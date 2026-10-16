@@ -121,6 +121,8 @@ export const ProductPage: React.FC = () => {
   const addedReviewCount = Math.max(0, localReviews.length - (product.reviews?.length || 0));
   const totalReviewCount = product.reviewCount + addedReviewCount;
 
+  const maxQuantity = Math.max(1, product.inStock ? Math.floor(product.inventoryCount) : 1);
+
   const handleAddToCart = () => {
     if (!product.inStock) return;
     addToCart(product, quantity, selectedColor, selectedSize);
@@ -399,7 +401,7 @@ export const ProductPage: React.FC = () => {
                 </span>
                 <button
                   type="button"
-                  onClick={() => setQuantity((q) => Math.min(product.inventoryCount || 99, q + 1))}
+                  onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
                   className="w-10 h-full flex items-center justify-center text-neutral-600 hover:bg-neutral-100 transition-colors"
                   aria-label="Increase quantity"
                 >

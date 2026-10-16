@@ -2,7 +2,17 @@ import React, { createContext, useContext, useState, useEffect, useMemo, useCall
 import { PageType, RouteParams, Product, CartItem, CurrencyOption } from '../types';
 import { productsData } from '../data/products';
 import { storeConfig } from '../data/storeConfig';
+import {
+  formatCurrencyAmount,
+  getAvailableStock,
+  parseRoute,
+  resolvePromoCode,
+  sanitizeCart,
+  sanitizeWishlist,
+  TAX_RATE,
+} from '../lib/storeUtils';
 
+// Static, illustrative conversion rates for the demo — NOT live exchange rates.
 export const availableCurrencies: CurrencyOption[] = [
   { code: 'USD', symbol: '$', rate: 1.0, label: 'USD ($)' },
   { code: 'EUR', symbol: '€', rate: 0.92, label: 'EUR (€)' },
@@ -105,10 +115,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [recentlyAddedId, setRecentlyAddedId] = useState<string | null>(null);
 
   const formatPrice = useCallback(
-    (amount: number): string => {
-      const converted = amount * activeCurrency.rate;
-      return `${activeCurrency.symbol}${converted.toFixed(2)}`;
-    },
+    (amount: number): string => formatCurrencyAmount(amount, activeCurrency),
     [activeCurrency]
   );
 
@@ -116,7 +123,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const local = localStorage.getItem('aura_cart');
-      return local ? JSON.parse(local) : [];
+      return local ? sanitizeCart(JSON.parse(local)) : [];
     } catch {
       return [];
     }
@@ -130,7 +137,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [wishlist, setWishlist] = useState<string[]>(() => {
     try {
       const local = localStorage.getItem('aura_wishlist');
-      return local ? JSON.parse(local) : [];
+      return local ? sanitizeWishlist(JSON.parse(local)) : [];
     } catch {
       return [];
     }
@@ -176,20 +183,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Read URL parameters on mount
   useEffect(() => {
     const handleUrlChange = () => {
-      const params = new URLSearchParams(window.location.search);
-      const page = (params.get('page') as PageType) || 'home';
-      const prodId = params.get('id') || undefined;
-      const catId = params.get('cat') || undefined;
-      const q = params.get('q') || undefined;
-      const curation = (params.get('filter') as RouteParams['curationFilter']) || undefined;
-
+      const { page, params } = parseRoute(window.location.search);
       setCurrentPage(page);
-      setRouteParams({
-        productId: prodId,
-        categoryId: catId,
-        searchQuery: q,
-        curationFilter: curation,
-      });
+      setRouteParams(params);
     };
 
     handleUrlChange();
@@ -229,6 +225,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Cart operations
   const addToCart = useCallback(
     (product: Product, quantity = 1, selectedColor?: string, selectedSize?: string) => {
+      const available = getAvailableStock(product);
+      if (available <= 0) {
+        showToast(`"${product.title}" is currently sold out`, 'warning');
+        return;
+      }
+
+      const requested = Math.max(1, Math.floor(quantity));
       const color = selectedColor || (product.colors.length > 0 ? product.colors[0].name : undefined);
       const size = selectedSize || (product.sizes && product.sizes.length > 0 ? product.sizes[0].label : undefined);
       const itemId = `${product.id}-${color || 'default'}-${size || 'default'}`;
@@ -237,30 +240,29 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const existingIndex = prev.findIndex((item) => item.id === itemId);
         if (existingIndex > -1) {
           const updated = [...prev];
-          const newQty = Math.min(updated[existingIndex].quantity + quantity, product.inventoryCount || 99);
           updated[existingIndex] = {
             ...updated[existingIndex],
-            quantity: newQty,
+            maxStock: available,
+            quantity: Math.min(updated[existingIndex].quantity + requested, available),
           };
           return updated;
-        } else {
-          return [
-            ...prev,
-            {
-              id: itemId,
-              productId: product.id,
-              title: product.title,
-              price: product.price,
-              compareAtPrice: product.compareAtPrice,
-              image: product.images[0],
-              selectedColor: color,
-              selectedSize: size,
-              quantity,
-              maxStock: product.inventoryCount || 99,
-              product,
-            },
-          ];
         }
+        return [
+          ...prev,
+          {
+            id: itemId,
+            productId: product.id,
+            title: product.title,
+            price: product.price,
+            compareAtPrice: product.compareAtPrice,
+            image: product.images[0],
+            selectedColor: color,
+            selectedSize: size,
+            quantity: Math.min(requested, available),
+            maxStock: available,
+            product,
+          },
+        ];
       });
 
       setRecentlyAddedId(product.id);
@@ -283,11 +285,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 
   const updateQuantity = useCallback((itemId: string, newQty: number) => {
-    if (newQty <= 0) {
+    if (!Number.isFinite(newQty)) return;
+    const next = Math.floor(newQty);
+    if (next <= 0) {
       setCart((prev) => prev.filter((item) => item.id !== itemId));
     } else {
       setCart((prev) =>
-        prev.map((item) => (item.id === itemId ? { ...item, quantity: Math.min(newQty, item.maxStock) } : item))
+        prev.map((item) => (item.id === itemId ? { ...item, quantity: Math.min(next, item.maxStock) } : item))
       );
     }
   }, []);
@@ -297,21 +301,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const applyDiscount = useCallback((code: string) => {
-    const clean = code.trim().toUpperCase();
-    if (clean === 'WELCOME10') {
-      setDiscountCode('WELCOME10');
-      setDiscountRate(0.1);
-      return { success: true, message: '10% discount applied to your order!' };
-    } else if (clean === 'SAVE20') {
-      setDiscountCode('SAVE20');
-      setDiscountRate(0.2);
-      return { success: true, message: '20% discount applied to your order!' };
-    } else if (clean === 'FREESHIP') {
-      setDiscountCode('FREESHIP');
-      setDiscountRate(0);
-      return { success: true, message: 'Free shipping voucher applied!' };
+    const result = resolvePromoCode(code);
+    if (result.success) {
+      setDiscountCode(result.code);
+      setDiscountRate(result.rate);
+      return { success: true, message: result.message };
     }
-    return { success: false, message: 'Invalid promo code. Try "WELCOME10" or "SAVE20"' };
+    return { success: false, message: result.message };
   }, []);
 
   const removeDiscount = useCallback(() => {
@@ -341,7 +337,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [cartSubtotal, cartDiscount, cartShipping]);
 
   const cartTaxAmount = useMemo(() => {
-    return Math.round((cartSubtotal - cartDiscount) * 0.08 * 100) / 100;
+    return Math.round((cartSubtotal - cartDiscount) * TAX_RATE * 100) / 100;
   }, [cartSubtotal, cartDiscount]);
 
   const cartGrandTotal = useMemo(() => {
