@@ -34,7 +34,7 @@ export const CartPage: React.FC = () => {
 
   const [promoInput, setPromoInput] = useState('');
   const [orderNote, setOrderNote] = useState('');
-  const [promoMessage, setPromoMessage] = useState<string | null>(null);
+  const [promoMessage, setPromoMessage] = useState<{ text: string; isError: boolean } | null>(null);
 
   const freeShippingThreshold = storeConfig.freeShippingThreshold;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - cartSubtotal);
@@ -44,12 +44,8 @@ export const CartPage: React.FC = () => {
     e.preventDefault();
     if (!promoInput.trim()) return;
     const res = applyDiscount(promoInput);
-    if (res.success) {
-      setPromoMessage('Promo code applied successfully!');
-      setPromoInput('');
-    } else {
-      setPromoMessage(res.message);
-    }
+    setPromoMessage({ text: res.message, isError: !res.success });
+    if (res.success) setPromoInput('');
   };
 
   const handleQuickPromo = (code: string) => {
@@ -285,8 +281,8 @@ export const CartPage: React.FC = () => {
               </div>
 
               {promoMessage && (
-                <p className={`text-[11px] font-medium ${discountCode ? 'text-emerald-700' : 'text-rose-600'}`}>
-                  {promoMessage}
+                <p className={`text-[11px] font-medium ${promoMessage.isError ? 'text-rose-600' : 'text-emerald-700'}`}>
+                  {promoMessage.text}
                 </p>
               )}
 
