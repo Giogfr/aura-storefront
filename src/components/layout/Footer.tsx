@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { storeConfig, categoriesData } from '../../data/storeConfig';
-import { ArrowRight, Check, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check, ShieldCheck } from 'lucide-react';
+
+const socialLinks = [
+  { name: 'Instagram', href: storeConfig.socials.instagram },
+  { name: 'Twitter', href: storeConfig.socials.twitter },
+  { name: 'Pinterest', href: storeConfig.socials.pinterest },
+  { name: 'Facebook', href: storeConfig.socials.facebook },
+  { name: 'TikTok', href: storeConfig.socials.tiktok },
+];
 
 export const Footer: React.FC = () => {
   const { navigateTo, showToast, activeCurrency, setActiveCurrency, availableCurrencies } = useStore();
@@ -82,6 +90,20 @@ export const Footer: React.FC = () => {
               <p>{storeConfig.address}</p>
               <p className="text-white font-medium">{storeConfig.contactEmail}</p>
               <p>{storeConfig.contactPhone}</p>
+            </div>
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5 pt-3">
+              {socialLinks.map(({ name, href }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-neutral-400 hover:text-white transition-colors"
+                >
+                  <span>{name}</span>
+                  <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
+                </a>
+              ))}
             </div>
           </div>
 
