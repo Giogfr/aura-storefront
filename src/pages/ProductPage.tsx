@@ -556,6 +556,7 @@ export const ProductPage: React.FC = () => {
               </button>
               {accordionState.shipping && (
                 <div className="pt-3 space-y-2 text-xs text-neutral-600 leading-relaxed">
+                  <p>{product.shippingInfo}</p>
                   <p>
                     Orders placed before 2:00 PM EST ship same day from our fulfillment studio. Standard delivery takes 3-5 business days. Express 2-day delivery is available at checkout.
                   </p>
