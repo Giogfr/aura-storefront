@@ -34,6 +34,11 @@ export const FaqPage: React.FC = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-10">
       <Breadcrumbs items={[{ label: 'Help & FAQ' }]} />
 
+      <p className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">
+        Sample content — these questions, policies, and support details are illustrative examples for
+        the demo template, not a real store&apos;s terms.
+      </p>
+
       <div className="text-center max-w-xl mx-auto space-y-3 pt-4">
         <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
           Customer Guidance
