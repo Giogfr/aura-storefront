@@ -54,7 +54,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary standard shipping. Free 30-day domestic returns.',
     isFeatured: true,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [
       {
         id: 'rev-1',
@@ -127,7 +126,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary standard shipping on orders over $75.',
     isFeatured: true,
     isBestSeller: false,
-    isNewArrival: true,
     reviews: [
       {
         id: 'rev-3',
@@ -188,7 +186,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Ships within 24 hours. 30-day hassle-free returns.',
     isFeatured: false,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -241,7 +238,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary standard shipping on orders over $75.',
     isFeatured: true,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -291,7 +287,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary domestic express shipping included.',
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: true,
     reviews: [],
   },
   {
@@ -339,7 +334,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary insured courier delivery.',
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: false,
     reviews: [],
   },
 
@@ -391,7 +385,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary shipping in protective dust bags and cedar trees box.',
     isFeatured: true,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -442,7 +435,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary standard shipping.',
     isFeatured: false,
     isBestSeller: true,
-    isNewArrival: true,
     reviews: [],
   },
   {
@@ -491,7 +483,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Standard delivery in 3-5 business days.',
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -540,7 +531,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary shipping & returns.',
     isFeatured: true,
     isBestSeller: false,
-    isNewArrival: false,
     reviews: [],
   },
 
@@ -588,7 +578,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Free 2-day delivery across contiguous US.',
     isFeatured: true,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -632,7 +621,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary insured courier delivery with signature required.',
     isFeatured: true,
     isBestSeller: false,
-    isNewArrival: true,
     reviews: [],
   },
   {
@@ -677,7 +665,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Includes hard protective case and lens cloth.',
     isFeatured: false,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -721,7 +708,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Standard shipping $8 or free over $75.',
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: false,
     reviews: [],
   },
 
@@ -768,7 +754,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Carefully wrapped in shock-absorbing eco-molded pulp packaging.',
     isFeatured: true,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -817,7 +802,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary shipping across US & Canada.',
     isFeatured: false,
     isBestSeller: true,
-    isNewArrival: true,
     reviews: [],
   },
   {
@@ -861,7 +845,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Ships within 1-2 business days.',
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -904,7 +887,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Standard shipping or free over $75.',
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: false,
     reviews: [],
   },
 
@@ -952,7 +934,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Includes charging tray, braided cable, and 35W wall brick.',
     isFeatured: true,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -995,7 +976,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Complimentary expedited 2-day delivery.',
     isFeatured: true,
     isBestSeller: false,
-    isNewArrival: true,
     reviews: [],
   },
   {
@@ -1038,7 +1018,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Includes coiled aviator cable and switch puller.',
     isFeatured: false,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -1085,7 +1064,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Ships rolled in protective cardboard tube.',
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: false,
     reviews: [],
   },
 
@@ -1130,7 +1108,6 @@ export const productsData: Product[] = [
     shippingInfo: 'Standard shipping or free over $75.',
     isFeatured: true,
     isBestSeller: true,
-    isNewArrival: false,
     reviews: [],
   },
   {
@@ -1170,7 +1147,6 @@ export const productsData: Product[] = [
     colors: [],
     isFeatured: false,
     isBestSeller: false,
-    isNewArrival: true,
     reviews: [],
   },
 ];
