@@ -14,7 +14,7 @@ export const FaqPage: React.FC = () => {
     { id: 'all', label: 'All Questions' },
     { id: 'Shipping & Delivery', label: 'Shipping & Delivery' },
     { id: 'Returns & Exchanges', label: 'Returns & Exchanges' },
-    { id: 'Ordering & Payment', label: 'Ordering & Payment' },
+    { id: 'Orders & Payments', label: 'Orders & Payments' },
     { id: 'Sizing & Materials', label: 'Sizing & Materials' },
   ];
 
@@ -48,9 +48,10 @@ export const FaqPage: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search questions (e.g. tracking, returns)..."
+            aria-label="Search frequently asked questions"
             className="w-full pl-9 pr-4 py-2.5 bg-neutral-50 border border-neutral-300 rounded text-xs focus:outline-hidden focus:border-neutral-900"
           />
-          <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-5" />
+          <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-5" aria-hidden="true" />
         </div>
       </div>
 
@@ -59,10 +60,12 @@ export const FaqPage: React.FC = () => {
         {categories.map((cat) => (
           <button
             key={cat.id}
+            type="button"
             onClick={() => {
               setActiveCategory(cat.id);
               setOpenIndex(null);
             }}
+            aria-pressed={activeCategory === cat.id}
             className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
               activeCategory === cat.id
                 ? 'bg-neutral-900 text-white font-semibold'
@@ -82,10 +85,11 @@ export const FaqPage: React.FC = () => {
           </div>
         ) : (
           filteredFaqs.map((faq, index) => (
-            <div key={index} className="py-4">
+            <div key={faq.question} className="py-4">
               <button
                 type="button"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                aria-expanded={openIndex === index}
                 className="w-full flex items-center justify-between text-left text-sm font-bold text-neutral-900 hover:text-neutral-600 transition-colors"
               >
                 <span>{faq.question}</span>
@@ -96,7 +100,7 @@ export const FaqPage: React.FC = () => {
                 )}
               </button>
               {openIndex === index && (
-                <p className="mt-3 text-xs sm:text-sm text-neutral-600 leading-relaxed pr-6 animate-in fade-in duration-150">
+                <p className="mt-3 text-xs sm:text-sm text-neutral-600 leading-relaxed pr-6 animate-fade-in">
                   {faq.answer}
                 </p>
               )}
