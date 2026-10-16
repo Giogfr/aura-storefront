@@ -19,7 +19,7 @@ export const HomePage: React.FC = () => {
   const [featuredTab, setFeaturedTab] = useState<string>('all');
 
   const featuredProducts = productsData.filter((p) => p.isFeatured);
-  const newArrivals = productsData.filter((p) => p.isNewArrival);
+  const newArrivals = productsData.filter((p) => p.isNew);
   const bestSellers = productsData.filter((p) => p.isBestSeller).slice(0, 4);
 
   const fallbackImage = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop';
