@@ -96,6 +96,8 @@ export const QuickViewModal: React.FC = () => {
                     key={idx}
                     type="button"
                     onClick={() => setActiveImageIndex(idx)}
+                    aria-label={`View image ${idx + 1} of ${quickViewProduct.images.length}`}
+                    aria-current={activeImageIndex === idx}
                     className={`w-14 h-16 rounded overflow-hidden border-2 shrink-0 transition-all ${
                       activeImageIndex === idx ? 'border-neutral-900' : 'border-transparent opacity-70 hover:opacity-100'
                     }`}
@@ -170,6 +172,7 @@ export const QuickViewModal: React.FC = () => {
                         style={{ backgroundColor: color.hex }}
                         title={color.name}
                         aria-label={`Select color ${color.name}`}
+                        aria-pressed={selectedColor === color.name}
                       >
                         {selectedColor === color.name && (
                           <Check className="w-4 h-4 text-white drop-shadow" />
@@ -193,6 +196,7 @@ export const QuickViewModal: React.FC = () => {
                         key={size.label}
                         type="button"
                         disabled={!size.inStock}
+                        aria-pressed={selectedSize === size.label}
                         onClick={() => setSelectedSize(size.label)}
                         className={`min-w-10 h-9 px-3 text-xs font-semibold rounded border transition-all ${
                           selectedSize === size.label
