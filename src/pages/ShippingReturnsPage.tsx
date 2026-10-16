@@ -76,13 +76,13 @@ export const ShippingReturnsPage: React.FC = () => {
                 <td className="p-3 font-semibold border border-neutral-200">Domestic Standard Ground</td>
                 <td className="p-3 border border-neutral-200">3–5 Business Days</td>
                 <td className="p-3 border border-neutral-200">Under {formatPrice(storeConfig.freeShippingThreshold)}</td>
-                <td className="p-3 border border-neutral-200">{formatPrice(10)} Flat Rate</td>
+                <td className="p-3 border border-neutral-200">{formatPrice(storeConfig.standardShippingFee)} Flat Rate</td>
               </tr>
               <tr>
                 <td className="p-3 font-semibold border border-neutral-200">Priority Express 2-Day Air</td>
                 <td className="p-3 border border-neutral-200">1–2 Business Days</td>
                 <td className="p-3 border border-neutral-200">Any</td>
-                <td className="p-3 border border-neutral-200">{formatPrice(15)}</td>
+                <td className="p-3 border border-neutral-200">{formatPrice(storeConfig.expressShippingFee)}</td>
               </tr>
               <tr>
                 <td className="p-3 font-semibold border border-neutral-200">Worldwide International Tracked</td>
