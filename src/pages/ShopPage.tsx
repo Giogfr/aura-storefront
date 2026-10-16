@@ -36,19 +36,25 @@ export const ShopPage: React.FC = () => {
 
   // Sync category from routeParams if changed
   useEffect(() => {
-    if (routeParams.categoryId) {
-      setFilters((prev) => ({ ...prev, category: routeParams.categoryId! }));
+    const categoryId = routeParams.categoryId;
+    if (categoryId) {
+      setFilters((prev) => ({ ...prev, category: categoryId }));
     }
   }, [routeParams.categoryId]);
 
-  // Handle escape key for mobile filter drawer
+  // Handle escape key and body scroll lock for mobile filter drawer
   useEffect(() => {
     if (!mobileFilterOpen) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setMobileFilterOpen(false);
     };
     window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [mobileFilterOpen]);
 
   // Determine collection metadata
@@ -244,7 +250,7 @@ export const ShopPage: React.FC = () => {
             <span className="hidden sm:inline text-xs text-neutral-400 font-medium">Sort by:</span>
             <select
               value={filters.sortBy}
-              onChange={(e) => setFilters((prev) => ({ ...prev, sortBy: e.target.value as any }))}
+              onChange={(e) => setFilters((prev) => ({ ...prev, sortBy: e.target.value as FilterState['sortBy'] }))}
               aria-label="Sort products by"
               className="text-xs font-medium bg-transparent border border-neutral-200 rounded px-2.5 py-2 text-neutral-800 focus:outline-hidden focus:border-neutral-900 cursor-pointer min-h-[40px]"
             >
@@ -563,7 +569,7 @@ export const ShopPage: React.FC = () => {
             className="fixed inset-0 bg-black/50 backdrop-blur-xs"
             onClick={() => setMobileFilterOpen(false)}
           />
-          <div className="relative ml-auto w-full max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-left">
+          <div className="relative ml-auto w-full max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-right">
             <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
               <h3 className="text-base font-bold text-neutral-900">Filters</h3>
               <button
