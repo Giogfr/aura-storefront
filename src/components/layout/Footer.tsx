@@ -216,7 +216,7 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('shipping-returns')} className="hover:text-white transition-colors">
+                <button type="button" onClick={() => navigateTo('shipping-returns')} className="hover:text-white transition-colors">
                   Return Terms
                 </button>
               </li>
@@ -242,6 +242,9 @@ export const Footer: React.FC = () => {
                   </option>
                 ))}
               </select>
+              <p className="mt-1.5 text-[10px] leading-tight text-neutral-500">
+                Sample conversion rates for the demo — not live FX.
+              </p>
             </div>
           </div>
         </div>
