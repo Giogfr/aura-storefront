@@ -23,6 +23,10 @@ export const ShippingReturnsPage: React.FC = () => {
         </p>
       </div>
 
+      <p className="max-w-2xl mx-auto -mt-6 rounded border border-amber-200 bg-amber-50 px-3 py-2 text-center text-[11px] leading-relaxed text-amber-800">
+        Demo content — the rates and return steps below are illustrative. This template does not fulfil real orders, generate shipping labels, or issue refunds.
+      </p>
+
       {/* Delivery Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="p-5 bg-neutral-50 rounded-lg border border-neutral-200/80 space-y-2">
@@ -88,7 +92,7 @@ export const ShippingReturnsPage: React.FC = () => {
                 <td className="p-3 font-semibold border border-neutral-200">Worldwide International Tracked</td>
                 <td className="p-3 border border-neutral-200">6–10 Business Days</td>
                 <td className="p-3 border border-neutral-200">Any</td>
-                <td className="p-3 border border-neutral-200">{formatPrice(25)}</td>
+                <td className="p-3 border border-neutral-200">{formatPrice(storeConfig.internationalShippingFee)}</td>
               </tr>
             </tbody>
           </table>
