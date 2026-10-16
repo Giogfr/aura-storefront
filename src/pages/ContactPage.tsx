@@ -18,7 +18,7 @@ export const ContactPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    showToast('Your message has been sent to our concierge team.', 'success');
+    showToast('Message captured for this demo — nothing was actually sent.', 'success');
   };
 
   return (
@@ -49,7 +49,7 @@ export const ContactPage: React.FC = () => {
                 Message Received
               </h3>
               <p className="text-xs text-neutral-600 max-w-sm mx-auto">
-                Thank you, {formData.name}. A customer specialist will review your inquiry and respond to <strong>{formData.email}</strong> within 12 business hours.
+                Thanks, {formData.name}. This template simulates the contact flow — no message was actually sent, so no reply is on its way to <strong>{formData.email}</strong>.
               </p>
               <button
                 type="button"
@@ -63,10 +63,14 @@ export const ContactPage: React.FC = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                  <label
+                    htmlFor="contact-name"
+                    className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                  >
                     Your Name *
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     value={formData.name}
@@ -77,10 +81,14 @@ export const ContactPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                  <label
+                    htmlFor="contact-email"
+                    className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                  >
                     Email Address *
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
                     value={formData.email}
@@ -93,10 +101,14 @@ export const ContactPage: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                  <label
+                    htmlFor="contact-order"
+                    className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                  >
                     Order Reference (Optional)
                   </label>
                   <input
+                    id="contact-order"
                     type="text"
                     value={formData.orderNumber}
                     onChange={(e) => setFormData({ ...formData, orderNumber: e.target.value })}
@@ -106,10 +118,14 @@ export const ContactPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                  <label
+                    htmlFor="contact-subject"
+                    className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                  >
                     Inquiry Topic
                   </label>
                   <select
+                    id="contact-subject"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="w-full px-3.5 py-2.5 text-xs bg-white border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
@@ -124,10 +140,14 @@ export const ContactPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="contact-message"
+                  className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                >
                   Your Message *
                 </label>
                 <textarea
+                  id="contact-message"
                   required
                   rows={5}
                   value={formData.message}
@@ -199,6 +219,7 @@ export const ContactPage: React.FC = () => {
             </p>
             <div className="space-y-1 pt-1">
               <button
+                type="button"
                 onClick={() => navigateTo('faq')}
                 className="text-xs font-semibold text-neutral-900 hover:underline flex items-center gap-1"
               >
@@ -206,6 +227,7 @@ export const ContactPage: React.FC = () => {
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <button
+                type="button"
                 onClick={() => navigateTo('shipping-returns')}
                 className="text-xs font-semibold text-neutral-900 hover:underline flex items-center gap-1"
               >
