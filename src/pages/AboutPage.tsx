@@ -30,6 +30,7 @@ export const AboutPage: React.FC = () => {
           <img
             src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80"
             alt="Studio workbench"
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
@@ -37,6 +38,7 @@ export const AboutPage: React.FC = () => {
           <img
             src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80"
             alt="Textile loom"
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
@@ -44,6 +46,7 @@ export const AboutPage: React.FC = () => {
           <img
             src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80"
             alt="Ceramic workshop"
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
