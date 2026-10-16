@@ -16,9 +16,19 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   onResetFilters,
   isLoading = false,
 }) => {
+  const columnClasses = {
+    2: 'grid-cols-2',
+    3: 'grid-cols-2 sm:grid-cols-3',
+    4: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
+  }[columns];
+
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
+      <div
+        role="status"
+        aria-label="Loading products"
+        className={`grid ${columnClasses} gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10`}
+      >
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i} className="animate-pulse flex flex-col gap-3">
             <div className="bg-neutral-200 aspect-[3/4] w-full rounded-sm" />
@@ -53,12 +63,6 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       </div>
     );
   }
-
-  const columnClasses = {
-    2: 'grid-cols-2',
-    3: 'grid-cols-2 sm:grid-cols-3',
-    4: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
-  }[columns];
 
   return (
     <div className={`grid ${columnClasses} gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12`}>
