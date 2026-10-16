@@ -88,9 +88,6 @@ interface StoreContextValue {
   // Toast
   toasts: ToastState[];
   showToast: (message: string, type?: 'info' | 'success' | 'warning') => void;
-
-  // Helper
-  getProductById: (id: string) => Product | undefined;
 }
 
 const StoreContext = createContext<StoreContextValue | undefined>(undefined);
@@ -119,38 +116,23 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const local = localStorage.getItem('aura_cart');
-      return local ? JSON.parse(local) : [
-        // Realistic default pre-filled cart item for immediate preview
-        {
-          id: 'prod-1-Raw Natural-M',
-          productId: 'prod-1',
-          title: 'Heavyweight Raw Cotton Chore Coat',
-          price: 185,
-          compareAtPrice: 220,
-          image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?q=80&w=1000&auto=format&fit=crop',
-          selectedColor: 'Raw Natural',
-          selectedSize: 'M',
-          quantity: 1,
-          maxStock: 14,
-          product: productsData[0],
-        },
-      ];
+      return local ? JSON.parse(local) : [];
     } catch {
       return [];
     }
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [discountCode, setDiscountCode] = useState<string>('WELCOME10');
-  const [discountRate, setDiscountRate] = useState<number>(0.1); // 10% demo discount active
+  const [discountCode, setDiscountCode] = useState<string>('');
+  const [discountRate, setDiscountRate] = useState<number>(0);
 
   // Wishlist state
   const [wishlist, setWishlist] = useState<string[]>(() => {
     try {
       const local = localStorage.getItem('aura_wishlist');
-      return local ? JSON.parse(local) : ['prod-2', 'prod-12'];
+      return local ? JSON.parse(local) : [];
     } catch {
-      return ['prod-2', 'prod-12'];
+      return [];
     }
   });
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
@@ -160,19 +142,14 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Search Modal
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [recentSearches, setRecentSearches] = useState<string[]>([
-    'Chore Coat',
-    'Merino Wool',
-    'Leather Bag',
-    'Ceramics',
-  ]);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   // Account Modal
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [user, setUser] = useState<{ name: string; email: string; loggedIn: boolean } | null>(null);
 
   // Recently Viewed
-  const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>(['prod-4', 'prod-15', 'prod-7']);
+  const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>([]);
 
   // Toasts
   const [toasts, setToasts] = useState<ToastState[]>([]);
@@ -204,12 +181,14 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const prodId = params.get('id') || undefined;
       const catId = params.get('cat') || undefined;
       const q = params.get('q') || undefined;
+      const curation = (params.get('filter') as RouteParams['curationFilter']) || undefined;
 
       setCurrentPage(page);
       setRouteParams({
         productId: prodId,
         categoryId: catId,
         searchQuery: q,
+        curationFilter: curation,
       });
     };
 
@@ -228,6 +207,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (params.productId) query.set('id', params.productId);
       if (params.categoryId) query.set('cat', params.categoryId);
       if (params.searchQuery) query.set('q', params.searchQuery);
+      if (params.curationFilter) query.set('filter', params.curationFilter);
 
       const queryString = query.toString();
       const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
@@ -444,10 +424,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return recentlyViewedIds.map((id) => productsData.find((p) => p.id === id)).filter(Boolean) as Product[];
   }, [recentlyViewedIds]);
 
-  const getProductById = useCallback((id: string) => {
-    return productsData.find((p) => p.id === id);
-  }, []);
-
   // Global escape key listener to close active drawers/modals
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -546,8 +522,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
         toasts,
         showToast,
-
-        getProductById,
       }}
     >
       {children}
