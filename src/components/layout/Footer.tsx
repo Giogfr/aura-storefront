@@ -254,13 +254,18 @@ export const Footer: React.FC = () => {
             <span className="flex items-center gap-1 text-neutral-400">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Demo template — no live transactions
             </span>
+            <span className="text-neutral-500">
+              All brands, products, prices, and policies are fictional sample data.
+            </span>
           </div>
 
-          {/* Payment Method Badges */}
-          <div className="flex items-center gap-2">
+          {/* Payment Method Badges (illustrative only) */}
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <span className="text-[10px] uppercase tracking-wider text-neutral-500">Illustrative methods</span>
             {['Visa', 'Mastercard', 'Amex', 'Apple Pay', 'PayPal', 'Klarna'].map((badge) => (
               <span
                 key={badge}
+                title="Illustrative only — no payment provider is integrated"
                 className="px-2 py-0.5 text-[10px] font-semibold bg-neutral-900 text-neutral-400 border border-neutral-800 rounded tracking-wider uppercase"
               >
                 {badge}
