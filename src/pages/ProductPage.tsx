@@ -93,23 +93,33 @@ export const ProductPage: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Keyboard controls for lightbox
+  // Keyboard controls and scroll lock for overlays (lightbox, size guide, review modal)
   useEffect(() => {
-    if (!isZoomOpen) return;
+    if (!isZoomOpen && !sizeGuideOpen && !reviewModalOpen) return;
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
-        setActiveImageIndex((prev) => (prev + 1) % product.images.length);
-      } else if (e.key === 'ArrowLeft') {
-        setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
-      } else if (e.key === 'Escape') {
+      if (e.key === 'Escape') {
         setIsZoomOpen(false);
+        setSizeGuideOpen(false);
+        setReviewModalOpen(false);
+      } else if (isZoomOpen && e.key === 'ArrowRight') {
+        setActiveImageIndex((prev) => (prev + 1) % product.images.length);
+      } else if (isZoomOpen && e.key === 'ArrowLeft') {
+        setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
       }
     };
     window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [isZoomOpen, product.images.length]);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isZoomOpen, sizeGuideOpen, reviewModalOpen, product.images.length]);
 
   const isSaved = isInWishlist(product.id);
+
+  const addedReviewCount = Math.max(0, localReviews.length - (product.reviews?.length || 0));
+  const totalReviewCount = product.reviewCount + addedReviewCount;
 
   const handleAddToCart = () => {
     if (!product.inStock) return;
@@ -135,7 +145,7 @@ export const ProductPage: React.FC = () => {
       date: 'Just now',
       title: newReviewTitle.trim(),
       comment: newReviewComment.trim(),
-      verifiedPurchase: true,
+      verifiedPurchase: false,
     };
 
     setLocalReviews([newRev, ...localReviews]);
@@ -143,7 +153,7 @@ export const ProductPage: React.FC = () => {
     setNewReviewAuthor('');
     setNewReviewTitle('');
     setNewReviewComment('');
-    showToast('Thank you! Your verified review has been published.', 'success');
+    showToast('Review added to this demo session.', 'success');
   };
 
   const relatedProducts = productsData
@@ -265,7 +275,7 @@ export const ProductPage: React.FC = () => {
                 </div>
                 <span className="font-semibold text-neutral-800">{product.rating.toFixed(1)}</span>
                 <span className="text-neutral-400">
-                  ({localReviews.length > 0 ? localReviews.length : product.reviewCount} reviews)
+                  ({totalReviewCount} reviews)
                 </span>
               </div>
             </div>
@@ -573,7 +583,7 @@ export const ProductPage: React.FC = () => {
                 ))}
               </div>
               <span className="text-xs font-bold text-neutral-900">
-                {product.rating} out of 5 based on {localReviews.length} verified ratings
+                {product.rating} out of 5 based on {totalReviewCount} ratings
               </span>
             </div>
           </div>
@@ -720,7 +730,7 @@ export const ProductPage: React.FC = () => {
                 setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length)
               }
               aria-label="Previous image"
-              className="absolute left-6 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/40 transition-colors z-20"
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/40 transition-colors z-20"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -743,7 +753,7 @@ export const ProductPage: React.FC = () => {
                 setActiveImageIndex((prev) => (prev + 1) % product.images.length)
               }
               aria-label="Next image"
-              className="absolute right-6 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/40 transition-colors z-20"
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/40 transition-colors z-20"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
@@ -868,10 +878,14 @@ export const ProductPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="review-author"
+                  className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                >
                   Your Name
                 </label>
                 <input
+                  id="review-author"
                   type="text"
                   required
                   value={newReviewAuthor}
@@ -882,10 +896,14 @@ export const ProductPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="review-title"
+                  className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                >
                   Review Headline
                 </label>
                 <input
+                  id="review-title"
                   type="text"
                   required
                   value={newReviewTitle}
@@ -896,10 +914,14 @@ export const ProductPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                <label
+                  htmlFor="review-comment"
+                  className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                >
                   Comments
                 </label>
                 <textarea
+                  id="review-comment"
                   required
                   rows={3}
                   value={newReviewComment}
@@ -913,7 +935,7 @@ export const ProductPage: React.FC = () => {
                 type="submit"
                 className="w-full py-3 bg-neutral-900 text-white text-xs font-semibold uppercase tracking-wider rounded hover:bg-neutral-800 transition-colors min-h-[44px]"
               >
-                Submit Verified Review
+                Submit Review
               </button>
             </form>
           </div>
