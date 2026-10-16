@@ -29,18 +29,11 @@ export const CollectionsPage: React.FC = () => {
       {/* Grid of collections */}
       <div className="pt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {categoriesData.map((category) => (
-          <div
+          <button
             key={category.id}
-            role="button"
-            tabIndex={0}
+            type="button"
             onClick={() => navigateTo('shop', { categoryId: category.id })}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                navigateTo('shop', { categoryId: category.id });
-              }
-            }}
-            className="group relative cursor-pointer overflow-hidden rounded-lg bg-neutral-900 aspect-[4/5] flex flex-col justify-end p-6 sm:p-8 shadow-xs focus:outline-hidden focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
+            className="group relative cursor-pointer overflow-hidden rounded-lg bg-neutral-900 aspect-[4/5] flex flex-col justify-end p-6 sm:p-8 shadow-xs text-left focus:outline-hidden focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
           >
             {/* Background Image */}
             <img
@@ -68,7 +61,7 @@ export const CollectionsPage: React.FC = () => {
                 <ArrowRight className="w-4 h-4" />
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
