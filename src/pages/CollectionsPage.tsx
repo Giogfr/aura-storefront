@@ -47,19 +47,19 @@ export const CollectionsPage: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
             <div className="relative z-10 space-y-2 text-white">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-300">
+              <span className="block text-[10px] font-bold uppercase tracking-widest text-neutral-300">
                 {category.productCount} Products
               </span>
-              <h2 className="text-2xl font-bold font-heading">
+              <span className="block text-2xl font-bold font-heading">
                 {category.name}
-              </h2>
-              <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed">
+              </span>
+              <span className="block text-xs text-neutral-300 line-clamp-2 leading-relaxed">
                 {category.description}
-              </p>
-              <div className="pt-2 flex items-center gap-1.5 text-xs font-semibold text-white group-hover:translate-x-1 transition-transform">
+              </span>
+              <span className="pt-2 flex items-center gap-1.5 text-xs font-semibold text-white group-hover:translate-x-1 transition-transform">
                 <span>Explore Collection</span>
                 <ArrowRight className="w-4 h-4" />
-              </div>
+              </span>
             </div>
           </button>
         ))}
