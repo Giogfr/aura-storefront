@@ -1,0 +1,563 @@
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import { PageType, RouteParams, Product, CartItem, CurrencyOption } from '../types';
+import { productsData } from '../data/products';
+import { storeConfig } from '../data/storeConfig';
+
+export const availableCurrencies: CurrencyOption[] = [
+  { code: 'USD', symbol: '$', rate: 1.0, label: 'USD ($)' },
+  { code: 'EUR', symbol: '€', rate: 0.92, label: 'EUR (€)' },
+  { code: 'GBP', symbol: '£', rate: 0.78, label: 'GBP (£)' },
+  { code: 'CAD', symbol: 'CA$', rate: 1.36, label: 'CAD ($)' },
+  { code: 'AUD', symbol: 'AU$', rate: 1.52, label: 'AUD ($)' },
+];
+
+interface ToastState {
+  id: number;
+  message: string;
+  type: 'info' | 'success' | 'warning';
+}
+
+interface StoreContextValue {
+  // Navigation
+  currentPage: PageType;
+  routeParams: RouteParams;
+  navigateTo: (page: PageType, params?: RouteParams, pushHistory?: boolean) => void;
+
+  // Currency & Localization
+  activeCurrency: CurrencyOption;
+  setActiveCurrency: (currency: CurrencyOption) => void;
+  availableCurrencies: CurrencyOption[];
+  formatPrice: (amount: number) => string;
+
+  // Cart
+  cart: CartItem[];
+  cartCount: number;
+  cartBumping: boolean;
+  recentlyAddedId: string | null;
+  cartSubtotal: number;
+  cartDiscount: number;
+  cartDiscountAmount: number;
+  cartShipping: number;
+  cartShippingFee: number;
+  cartTaxAmount: number;
+  cartTotal: number;
+  cartGrandTotal: number;
+  discountCode: string;
+  discountRate: number;
+  discountPercent: number;
+  isCartOpen: boolean;
+  setIsCartOpen: (open: boolean) => void;
+  addToCart: (product: Product, quantity?: number, selectedColor?: string, selectedSize?: string) => void;
+  removeFromCart: (itemId: string) => void;
+  updateQuantity: (itemId: string, newQty: number) => void;
+  applyDiscount: (code: string) => { success: boolean; message: string };
+  removeDiscount: () => void;
+  clearCart: () => void;
+
+  // Wishlist
+  wishlist: string[];
+  wishlistCount: number;
+  isWishlistOpen: boolean;
+  setIsWishlistOpen: (open: boolean) => void;
+  toggleWishlist: (productId: string) => void;
+  isInWishlist: (productId: string) => boolean;
+
+  // Quick View
+  quickViewProduct: Product | null;
+  openQuickView: (product: Product) => void;
+  closeQuickView: () => void;
+
+  // Search
+  isSearchOpen: boolean;
+  setIsSearchOpen: (open: boolean) => void;
+  recentSearches: string[];
+  addRecentSearch: (query: string) => void;
+  clearRecentSearches: () => void;
+
+  // Account
+  isAccountOpen: boolean;
+  setIsAccountOpen: (open: boolean) => void;
+  user: { name: string; email: string; loggedIn: boolean } | null;
+  loginUser: (email: string, name: string) => void;
+  logoutUser: () => void;
+
+  // Recently Viewed
+  recentlyViewed: Product[];
+  addRecentlyViewed: (productId: string) => void;
+
+  // Toast
+  toasts: ToastState[];
+  showToast: (message: string, type?: 'info' | 'success' | 'warning') => void;
+
+  // Helper
+  getProductById: (id: string) => Product | undefined;
+}
+
+const StoreContext = createContext<StoreContextValue | undefined>(undefined);
+
+export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Navigation state
+  const [currentPage, setCurrentPage] = useState<PageType>('home');
+  const [routeParams, setRouteParams] = useState<RouteParams>({});
+
+  // Currency & Localization state
+  const [activeCurrency, setActiveCurrency] = useState<CurrencyOption>(availableCurrencies[0]);
+
+  // Micro-interaction states
+  const [cartBumping, setCartBumping] = useState(false);
+  const [recentlyAddedId, setRecentlyAddedId] = useState<string | null>(null);
+
+  const formatPrice = useCallback(
+    (amount: number): string => {
+      const converted = amount * activeCurrency.rate;
+      return `${activeCurrency.symbol}${converted.toFixed(2)}`;
+    },
+    [activeCurrency]
+  );
+
+  // Cart state
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try {
+      const local = localStorage.getItem('aura_cart');
+      return local ? JSON.parse(local) : [
+        // Realistic default pre-filled cart item for immediate preview
+        {
+          id: 'prod-1-Raw Natural-M',
+          productId: 'prod-1',
+          title: 'Heavyweight Raw Cotton Chore Coat',
+          price: 185,
+          compareAtPrice: 220,
+          image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?q=80&w=1000&auto=format&fit=crop',
+          selectedColor: 'Raw Natural',
+          selectedSize: 'M',
+          quantity: 1,
+          maxStock: 14,
+          product: productsData[0],
+        },
+      ];
+    } catch {
+      return [];
+    }
+  });
+
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [discountCode, setDiscountCode] = useState<string>('WELCOME10');
+  const [discountRate, setDiscountRate] = useState<number>(0.1); // 10% demo discount active
+
+  // Wishlist state
+  const [wishlist, setWishlist] = useState<string[]>(() => {
+    try {
+      const local = localStorage.getItem('aura_wishlist');
+      return local ? JSON.parse(local) : ['prod-2', 'prod-12'];
+    } catch {
+      return ['prod-2', 'prod-12'];
+    }
+  });
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+
+  // Quick View Modal
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+
+  // Search Modal
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>([
+    'Chore Coat',
+    'Merino Wool',
+    'Leather Bag',
+    'Ceramics',
+  ]);
+
+  // Account Modal
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [user, setUser] = useState<{ name: string; email: string; loggedIn: boolean } | null>(null);
+
+  // Recently Viewed
+  const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>(['prod-4', 'prod-15', 'prod-7']);
+
+  // Toasts
+  const [toasts, setToasts] = useState<ToastState[]>([]);
+
+  // Sync cart to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('aura_cart', JSON.stringify(cart));
+    } catch {
+      // ignore
+    }
+  }, [cart]);
+
+  // Sync wishlist to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('aura_wishlist', JSON.stringify(wishlist));
+    } catch {
+      // ignore
+    }
+  }, [wishlist]);
+
+  // Read URL parameters on mount
+  useEffect(() => {
+    const handleUrlChange = () => {
+      const params = new URLSearchParams(window.location.search);
+      const page = (params.get('page') as PageType) || 'home';
+      const prodId = params.get('id') || undefined;
+      const catId = params.get('cat') || undefined;
+      const q = params.get('q') || undefined;
+
+      setCurrentPage(page);
+      setRouteParams({
+        productId: prodId,
+        categoryId: catId,
+        searchQuery: q,
+      });
+    };
+
+    handleUrlChange();
+    window.addEventListener('popstate', handleUrlChange);
+    return () => window.removeEventListener('popstate', handleUrlChange);
+  }, []);
+
+  const navigateTo = useCallback((page: PageType, params: RouteParams = {}, pushHistory = true) => {
+    setCurrentPage(page);
+    setRouteParams(params);
+
+    if (pushHistory) {
+      const query = new URLSearchParams();
+      if (page !== 'home') query.set('page', page);
+      if (params.productId) query.set('id', params.productId);
+      if (params.categoryId) query.set('cat', params.categoryId);
+      if (params.searchQuery) query.set('q', params.searchQuery);
+
+      const queryString = query.toString();
+      const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+      window.history.pushState({}, '', newUrl);
+    }
+
+    // Smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const showToast = useCallback((message: string, type: 'info' | 'success' | 'warning' = 'success') => {
+    const id = Date.now();
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3200);
+  }, []);
+
+  // Cart operations
+  const addToCart = useCallback(
+    (product: Product, quantity = 1, selectedColor?: string, selectedSize?: string) => {
+      const color = selectedColor || (product.colors.length > 0 ? product.colors[0].name : undefined);
+      const size = selectedSize || (product.sizes && product.sizes.length > 0 ? product.sizes[0].label : undefined);
+      const itemId = `${product.id}-${color || 'default'}-${size || 'default'}`;
+
+      setCart((prev) => {
+        const existingIndex = prev.findIndex((item) => item.id === itemId);
+        if (existingIndex > -1) {
+          const updated = [...prev];
+          const newQty = Math.min(updated[existingIndex].quantity + quantity, product.inventoryCount || 99);
+          updated[existingIndex] = {
+            ...updated[existingIndex],
+            quantity: newQty,
+          };
+          return updated;
+        } else {
+          return [
+            ...prev,
+            {
+              id: itemId,
+              productId: product.id,
+              title: product.title,
+              price: product.price,
+              compareAtPrice: product.compareAtPrice,
+              image: product.images[0],
+              selectedColor: color,
+              selectedSize: size,
+              quantity,
+              maxStock: product.inventoryCount || 99,
+              product,
+            },
+          ];
+        }
+      });
+
+      setRecentlyAddedId(product.id);
+      setTimeout(() => setRecentlyAddedId(null), 2200);
+      setCartBumping(true);
+      setTimeout(() => setCartBumping(false), 450);
+
+      showToast(`Added "${product.title}" to your cart`, 'success');
+      setIsCartOpen(true);
+    },
+    [showToast]
+  );
+
+  const removeFromCart = useCallback(
+    (itemId: string) => {
+      setCart((prev) => prev.filter((item) => item.id !== itemId));
+      showToast('Item removed from cart', 'info');
+    },
+    [showToast]
+  );
+
+  const updateQuantity = useCallback((itemId: string, newQty: number) => {
+    if (newQty <= 0) {
+      setCart((prev) => prev.filter((item) => item.id !== itemId));
+    } else {
+      setCart((prev) =>
+        prev.map((item) => (item.id === itemId ? { ...item, quantity: Math.min(newQty, item.maxStock) } : item))
+      );
+    }
+  }, []);
+
+  const clearCart = useCallback(() => {
+    setCart([]);
+  }, []);
+
+  const applyDiscount = useCallback((code: string) => {
+    const clean = code.trim().toUpperCase();
+    if (clean === 'WELCOME10') {
+      setDiscountCode('WELCOME10');
+      setDiscountRate(0.1);
+      return { success: true, message: '10% discount applied to your order!' };
+    } else if (clean === 'SAVE20') {
+      setDiscountCode('SAVE20');
+      setDiscountRate(0.2);
+      return { success: true, message: '20% discount applied to your order!' };
+    } else if (clean === 'FREESHIP') {
+      setDiscountCode('FREESHIP');
+      setDiscountRate(0);
+      return { success: true, message: 'Free shipping voucher applied!' };
+    }
+    return { success: false, message: 'Invalid promo code. Try "WELCOME10" or "SAVE20"' };
+  }, []);
+
+  const removeDiscount = useCallback(() => {
+    setDiscountCode('');
+    setDiscountRate(0);
+  }, []);
+
+  // Cart calculations
+  const cartSubtotal = useMemo(() => {
+    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }, [cart]);
+
+  const cartDiscount = useMemo(() => {
+    return Math.round(cartSubtotal * discountRate * 100) / 100;
+  }, [cartSubtotal, discountRate]);
+
+  const cartShipping = useMemo(() => {
+    if (cartSubtotal === 0) return 0;
+    if (discountCode === 'FREESHIP' || cartSubtotal >= storeConfig.freeShippingThreshold) {
+      return 0;
+    }
+    return storeConfig.standardShippingFee;
+  }, [cartSubtotal, discountCode]);
+
+  const cartTotal = useMemo(() => {
+    return Math.max(0, cartSubtotal - cartDiscount + cartShipping);
+  }, [cartSubtotal, cartDiscount, cartShipping]);
+
+  const cartTaxAmount = useMemo(() => {
+    return Math.round((cartSubtotal - cartDiscount) * 0.08 * 100) / 100;
+  }, [cartSubtotal, cartDiscount]);
+
+  const cartGrandTotal = useMemo(() => {
+    return Math.max(0, cartSubtotal - cartDiscount + cartShipping + cartTaxAmount);
+  }, [cartSubtotal, cartDiscount, cartShipping, cartTaxAmount]);
+
+  const cartDiscountAmount = cartDiscount;
+  const cartShippingFee = cartShipping;
+  const discountPercent = Math.round(discountRate * 100);
+
+  const cartCount = useMemo(() => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  }, [cart]);
+
+  // Wishlist operations
+  const toggleWishlist = useCallback(
+    (productId: string) => {
+      setWishlist((prev) => {
+        const exists = prev.includes(productId);
+        if (exists) {
+          showToast('Removed from wishlist', 'info');
+          return prev.filter((id) => id !== productId);
+        } else {
+          showToast('Saved to your wishlist', 'success');
+          return [...prev, productId];
+        }
+      });
+    },
+    [showToast]
+  );
+
+  const isInWishlist = useCallback(
+    (productId: string) => {
+      return wishlist.includes(productId);
+    },
+    [wishlist]
+  );
+
+  // Quick View
+  const openQuickView = useCallback((product: Product) => {
+    setQuickViewProduct(product);
+  }, []);
+
+  const closeQuickView = useCallback(() => {
+    setQuickViewProduct(null);
+  }, []);
+
+  // Recent Searches
+  const addRecentSearch = useCallback((query: string) => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    setRecentSearches((prev) => [trimmed, ...prev.filter((q) => q.toLowerCase() !== trimmed.toLowerCase())].slice(0, 6));
+  }, []);
+
+  const clearRecentSearches = useCallback(() => {
+    setRecentSearches([]);
+  }, []);
+
+  // Account
+  const loginUser = useCallback(
+    (email: string, name: string) => {
+      setUser({ email, name, loggedIn: true });
+      showToast(`Welcome back, ${name}!`, 'success');
+      setIsAccountOpen(false);
+    },
+    [showToast]
+  );
+
+  const logoutUser = useCallback(() => {
+    setUser(null);
+    showToast('You have signed out', 'info');
+  }, [showToast]);
+
+  // Recently Viewed
+  const addRecentlyViewed = useCallback((productId: string) => {
+    setRecentlyViewedIds((prev) => [productId, ...prev.filter((id) => id !== productId)].slice(0, 6));
+  }, []);
+
+  const recentlyViewed = useMemo(() => {
+    return recentlyViewedIds.map((id) => productsData.find((p) => p.id === id)).filter(Boolean) as Product[];
+  }, [recentlyViewedIds]);
+
+  const getProductById = useCallback((id: string) => {
+    return productsData.find((p) => p.id === id);
+  }, []);
+
+  // Global escape key listener to close active drawers/modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsCartOpen(false);
+        setIsWishlistOpen(false);
+        setIsSearchOpen(false);
+        setIsAccountOpen(false);
+        setQuickViewProduct(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Prevent background scroll when any drawer or modal is open
+  useEffect(() => {
+    const isAnyModalOpen = isCartOpen || isWishlistOpen || isSearchOpen || isAccountOpen || !!quickViewProduct;
+    if (isAnyModalOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [isCartOpen, isWishlistOpen, isSearchOpen, isAccountOpen, quickViewProduct]);
+
+  return (
+    <StoreContext.Provider
+      value={{
+        currentPage,
+        routeParams,
+        navigateTo,
+
+        activeCurrency,
+        setActiveCurrency,
+        availableCurrencies,
+        formatPrice,
+
+        cart,
+        cartCount,
+        cartBumping,
+        recentlyAddedId,
+        cartSubtotal,
+        cartDiscount,
+        cartDiscountAmount,
+        cartShipping,
+        cartShippingFee,
+        cartTaxAmount,
+        cartTotal,
+        cartGrandTotal,
+        discountCode,
+        discountRate,
+        discountPercent,
+        isCartOpen,
+        setIsCartOpen,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        applyDiscount,
+        removeDiscount,
+        clearCart,
+
+        wishlist,
+        wishlistCount: wishlist.length,
+        isWishlistOpen,
+        setIsWishlistOpen,
+        toggleWishlist,
+        isInWishlist,
+
+        quickViewProduct,
+        openQuickView,
+        closeQuickView,
+
+        isSearchOpen,
+        setIsSearchOpen,
+        recentSearches,
+        addRecentSearch,
+        clearRecentSearches,
+
+        isAccountOpen,
+        setIsAccountOpen,
+        user,
+        loginUser,
+        logoutUser,
+
+        recentlyViewed,
+        addRecentlyViewed,
+
+        toasts,
+        showToast,
+
+        getProductById,
+      }}
+    >
+      {children}
+    </StoreContext.Provider>
+  );
+};
+
+export const useStore = (): StoreContextValue => {
+  const context = useContext(StoreContext);
+  if (!context) {
+    throw new Error('useStore must be used within a StoreProvider');
+  }
+  return context;
+};

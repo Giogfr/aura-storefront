@@ -1,0 +1,51 @@
+{
+  "name": "aura-storefront",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A polished, modern, modular e-commerce storefront template built with React, TypeScript, Vite, and Tailwind CSS.",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "ecommerce",
+    "storefront",
+    "template",
+    "react",
+    "typescript",
+    "vite",
+    "tailwindcss"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Giogfr/aura-storefront.git"
+  },
+  "homepage": "https://github.com/Giogfr/aura-storefront#readme",
+  "bugs": {
+    "url": "https://github.com/Giogfr/aura-storefront/issues"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
