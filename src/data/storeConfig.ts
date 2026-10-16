@@ -113,7 +113,6 @@ export const promoBanners = {
     title: 'Form Follows Simplicity',
     subtitle: 'A curated capsule of timeless everyday garments, tactile ceramics, and purposeful accessories engineered for daily life.',
     ctaText: 'Explore Collection',
-    secondaryCta: 'View Lookbook',
     image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600&auto=format&fit=crop',
   },
   editorial: {
@@ -138,47 +137,41 @@ export const instagramPosts = [
     id: 'ig-1',
     image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop',
     caption: 'Studio fitting with the Raw Cotton Chore Jacket.',
-    handle: '@aura.studio',
     productId: 'prod-1',
   },
   {
     id: 'ig-2',
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop',
     caption: 'Structured silhouettes for morning transit.',
-    handle: '@aura.studio',
     productId: 'prod-4',
   },
   {
     id: 'ig-3',
     image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop',
     caption: 'Rest and recharge. The Ceramic Pouring Set on warm travertine.',
-    handle: '@aura.studio',
     productId: 'prod-13',
   },
   {
     id: 'ig-4',
     image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=600&auto=format&fit=crop',
     caption: 'Daily ritual essentials formulated with botanical rosemary.',
-    handle: '@aura.studio',
     productId: 'prod-21',
   },
   {
     id: 'ig-5',
     image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=600&auto=format&fit=crop',
     caption: 'Full-grain calfskin derbies breaking in effortlessly.',
-    handle: '@aura.studio',
     productId: 'prod-7',
   },
   {
     id: 'ig-6',
     image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=600&auto=format&fit=crop',
     caption: 'Architectural shadows and the Canvas Weekender Tote.',
-    handle: '@aura.studio',
     productId: 'prod-11',
   },
 ];
 
-export const faqCategories = [
+const faqCategories = [
   {
     category: 'Orders & Payments',
     items: [
