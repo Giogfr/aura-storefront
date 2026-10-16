@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../context/StoreContext';
 import { faqData } from '../data/storeConfig';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -9,6 +9,10 @@ export const FaqPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    setOpenIndex(null);
+  }, [activeCategory, searchQuery]);
 
   const categories = [
     { id: 'all', label: 'All Questions' },
@@ -61,10 +65,7 @@ export const FaqPage: React.FC = () => {
           <button
             key={cat.id}
             type="button"
-            onClick={() => {
-              setActiveCategory(cat.id);
-              setOpenIndex(null);
-            }}
+            onClick={() => setActiveCategory(cat.id)}
             aria-pressed={activeCategory === cat.id}
             className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
               activeCategory === cat.id
