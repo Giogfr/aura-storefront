@@ -69,7 +69,6 @@ export interface Product {
   reviews: ProductReview[];
   isFeatured?: boolean;
   isBestSeller?: boolean;
-  isNewArrival?: boolean;
 }
 
 export interface Category {
