@@ -222,7 +222,7 @@ export const CartPage: React.FC = () => {
             <div className="flex flex-wrap gap-2">
               {[
                 { code: 'WELCOME10', desc: '10% off your entire order' },
-                { code: 'STUDIO20', desc: '20% off high value carts' },
+                { code: 'SAVE20', desc: '20% off your entire order' },
                 { code: 'FREESHIP', desc: 'Complimentary shipping waiver' },
               ].map((promo) => (
                 <button
