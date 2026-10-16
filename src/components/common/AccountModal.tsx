@@ -13,7 +13,13 @@ export const AccountModal: React.FC = () => {
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    loginUser(email || 'alexander@example.com', name || 'Alexander Wright');
+    const derivedName = email
+      .split('@')[0]
+      .split(/[._-]+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
+    loginUser(email, tab === 'register' ? name.trim() : derivedName || 'Demo Customer');
   };
 
   const handleDemoLogin = () => {
