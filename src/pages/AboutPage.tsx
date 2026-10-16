@@ -11,6 +11,12 @@ export const AboutPage: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-16">
       <Breadcrumbs items={[{ label: 'About Our Studio' }]} />
 
+      <p className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">
+        Sample brand content — {storeConfig.storeName} is a fictional brand created for this demo
+        template. All names, imagery, materials, partnerships, and statistics shown here are
+        illustrative examples rather than real claims.
+      </p>
+
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto space-y-4 pt-6">
         <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
@@ -70,7 +76,8 @@ export const AboutPage: React.FC = () => {
             </div>
             <h3 className="text-sm font-bold text-neutral-900">Organic & Traceable</h3>
             <p className="text-xs text-neutral-500 leading-relaxed">
-              Every cotton thread is GOTS-certified organic, and our leather goods utilize vegetable-tanned hides audited by the Leather Working Group.
+              We favor responsibly sourced natural fibers and vegetable-tanned leathers, and we choose
+              suppliers who share our standards for traceable, lower-impact materials.
             </p>
           </div>
 
