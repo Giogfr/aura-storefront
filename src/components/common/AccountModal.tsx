@@ -1,31 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { X, User, Package, MapPin, LogOut, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const AccountModal: React.FC = () => {
-  const { isAccountOpen, setIsAccountOpen, user, loginUser, logoutUser, navigateTo } = useStore();
+  const { isAccountOpen, setIsAccountOpen, user, loginUser, logoutUser, showToast } = useStore();
   const [tab, setTab] = useState<'signin' | 'register'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-
-  useEffect(() => {
-    if (isAccountOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [isAccountOpen]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsAccountOpen(false);
-    };
-    if (isAccountOpen) {
-      window.addEventListener('keydown', handleKeyDown);
-    }
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isAccountOpen, setIsAccountOpen]);
 
   if (!isAccountOpen) return null;
 
@@ -39,7 +21,12 @@ export const AccountModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label={user ? 'My account' : 'Sign in or create an account'}
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300"
@@ -47,7 +34,7 @@ export const AccountModal: React.FC = () => {
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-lg shadow-2xl max-w-md w-full overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-white rounded-lg shadow-2xl max-w-md w-full overflow-hidden z-10 animate-fade-in">
         {/* Header */}
         <div className="p-5 border-b border-neutral-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -57,6 +44,7 @@ export const AccountModal: React.FC = () => {
             </h2>
           </div>
           <button
+            type="button"
             onClick={() => setIsAccountOpen(false)}
             aria-label="Close"
             className="w-8 h-8 rounded-full hover:bg-neutral-100 flex items-center justify-center text-neutral-500 hover:text-neutral-900 transition-colors"
@@ -78,25 +66,33 @@ export const AccountModal: React.FC = () => {
                   <h3 className="text-sm font-bold text-neutral-900">{user.name}</h3>
                   <p className="text-xs text-neutral-500">{user.email}</p>
                   <span className="inline-flex items-center gap-1 text-[10px] text-emerald-700 font-semibold mt-1">
-                    <CheckCircle2 className="w-3 h-3" /> Member Tier: Silver
+                    <CheckCircle2 className="w-3 h-3" /> Demo account
                   </span>
                 </div>
               </div>
 
               {/* Account Quick Links */}
               <div className="space-y-2">
-                <div className="p-3.5 rounded-lg border border-neutral-200/80 hover:border-neutral-900 transition-colors cursor-pointer flex items-center justify-between group">
+                <button
+                  type="button"
+                  onClick={() => showToast('Order history is simulated in this demo.', 'info')}
+                  className="w-full p-3.5 rounded-lg border border-neutral-200/80 hover:border-neutral-900 transition-colors flex items-center justify-between group text-left"
+                >
                   <div className="flex items-center gap-3">
                     <Package className="w-4 h-4 text-neutral-500 group-hover:text-neutral-900" />
                     <div>
                       <h4 className="text-xs font-semibold text-neutral-900">Orders & Returns</h4>
-                      <p className="text-[11px] text-neutral-500">Order #AU-89421 • Delivered Sep 14</p>
+                      <p className="text-[11px] text-neutral-500">Sample order #AU-89421 · Delivered Sep 14</p>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-neutral-900" />
-                </div>
+                </button>
 
-                <div className="p-3.5 rounded-lg border border-neutral-200/80 hover:border-neutral-900 transition-colors cursor-pointer flex items-center justify-between group">
+                <button
+                  type="button"
+                  onClick={() => showToast('Saved addresses are simulated in this demo.', 'info')}
+                  className="w-full p-3.5 rounded-lg border border-neutral-200/80 hover:border-neutral-900 transition-colors flex items-center justify-between group text-left"
+                >
                   <div className="flex items-center gap-3">
                     <MapPin className="w-4 h-4 text-neutral-500 group-hover:text-neutral-900" />
                     <div>
@@ -105,7 +101,7 @@ export const AccountModal: React.FC = () => {
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-neutral-900" />
-                </div>
+                </button>
               </div>
 
               <div className="pt-2">
@@ -122,11 +118,16 @@ export const AccountModal: React.FC = () => {
           ) : (
             /* Logged out state */
             <div>
+              <p className="mb-5 rounded border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">
+                Demo mode — sign-in is simulated. No credentials are submitted or stored.
+              </p>
+
               {/* Tab switcher */}
               <div className="flex border-b border-neutral-200 mb-5">
                 <button
                   type="button"
                   onClick={() => setTab('signin')}
+                  aria-pressed={tab === 'signin'}
                   className={`flex-1 pb-2.5 text-xs font-semibold tracking-wider uppercase border-b-2 transition-colors ${
                     tab === 'signin'
                       ? 'border-neutral-900 text-neutral-900'
@@ -138,6 +139,7 @@ export const AccountModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setTab('register')}
+                  aria-pressed={tab === 'register'}
                   className={`flex-1 pb-2.5 text-xs font-semibold tracking-wider uppercase border-b-2 transition-colors ${
                     tab === 'register'
                       ? 'border-neutral-900 text-neutral-900'
@@ -151,10 +153,14 @@ export const AccountModal: React.FC = () => {
               <form onSubmit={handleLoginSubmit} className="space-y-3.5">
                 {tab === 'register' && (
                   <div>
-                    <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    <label
+                      htmlFor="account-name"
+                      className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                    >
                       Full Name
                     </label>
                     <input
+                      id="account-name"
                       type="text"
                       required
                       value={name}
@@ -166,10 +172,14 @@ export const AccountModal: React.FC = () => {
                 )}
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                  <label
+                    htmlFor="account-email"
+                    className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1"
+                  >
                     Email Address
                   </label>
                   <input
+                    id="account-email"
                     type="email"
                     required
                     value={email}
@@ -181,16 +191,24 @@ export const AccountModal: React.FC = () => {
 
                 <div>
                   <div className="flex justify-between items-center mb-1">
-                    <label className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider">
+                    <label
+                      htmlFor="account-password"
+                      className="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider"
+                    >
                       Password
                     </label>
                     {tab === 'signin' && (
-                      <span className="text-[11px] text-neutral-500 hover:underline cursor-pointer">
+                      <button
+                        type="button"
+                        onClick={() => showToast('Password recovery is not available in this demo.', 'info')}
+                        className="text-[11px] text-neutral-500 hover:text-neutral-900 hover:underline"
+                      >
                         Forgot?
-                      </span>
+                      </button>
                     )}
                   </div>
                   <input
+                    id="account-password"
                     type="password"
                     required
                     value={password}
