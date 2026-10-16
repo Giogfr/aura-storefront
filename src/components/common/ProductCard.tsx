@@ -194,8 +194,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Title with consistent 2-line height alignment */}
-        <h3 className="text-sm font-medium text-neutral-900 group-hover:text-neutral-600 transition-colors line-clamp-2 min-h-[2.5rem] mb-1 leading-snug">
-          {product.title}
+        <h3 className="text-sm font-medium min-h-[2.5rem] mb-1 leading-snug">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCardClick();
+            }}
+            className="block w-full text-left text-neutral-900 group-hover:text-neutral-600 hover:text-neutral-600 transition-colors line-clamp-2 focus:outline-hidden focus-visible:underline"
+          >
+            {product.title}
+          </button>
         </h3>
 
         {/* Price & Compare-At */}
@@ -221,6 +230,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 key={color.name}
                 type="button"
                 title={color.name}
+                aria-label={`Select colour ${color.name}`}
+                aria-pressed={selectedColor === color.name}
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedColor(color.name);
