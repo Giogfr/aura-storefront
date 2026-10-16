@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStore } from '../../context/StoreContext';
 import { productsData } from '../../data/products';
+import { Product } from '../../types';
 import { X, Heart, ShoppingBag, Trash2 } from 'lucide-react';
 
 export const WishlistDrawer: React.FC = () => {
@@ -18,7 +19,7 @@ export const WishlistDrawer: React.FC = () => {
 
   const savedProducts = wishlist
     .map((id) => productsData.find((p) => p.id === id))
-    .filter(Boolean);
+    .filter((p): p is Product => Boolean(p));
 
   const handleAddAllToCart = () => {
     savedProducts.forEach((p) => {
@@ -90,7 +91,6 @@ export const WishlistDrawer: React.FC = () => {
           ) : (
             <div className="divide-y divide-neutral-100">
               {savedProducts.map((product) => {
-                if (!product) return null;
                 return (
                   <div key={product.id} className="py-3.5 flex gap-3.5 items-center">
                     <img
@@ -111,14 +111,17 @@ export const WishlistDrawer: React.FC = () => {
                       <span className="text-[10px] uppercase font-bold tracking-wider text-neutral-400">
                         {product.categoryName}
                       </span>
-                      <h4
-                        onClick={() => {
-                          setIsWishlistOpen(false);
-                          navigateTo('product', { productId: product.id });
-                        }}
-                        className="text-xs font-semibold text-neutral-900 hover:text-neutral-600 cursor-pointer transition-colors truncate mb-1"
-                      >
-                        {product.title}
+                      <h4 className="text-xs font-semibold min-w-0 mb-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsWishlistOpen(false);
+                            navigateTo('product', { productId: product.id });
+                          }}
+                          className="block w-full text-left text-neutral-900 hover:text-neutral-600 transition-colors truncate"
+                        >
+                          {product.title}
+                        </button>
                       </h4>
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-xs font-bold text-neutral-900">{formatPrice(product.price)}</span>
@@ -151,7 +154,6 @@ export const WishlistDrawer: React.FC = () => {
                           type="button"
                           onClick={() => toggleWishlist(product.id)}
                           className="p-1.5 text-neutral-400 hover:text-rose-600 transition-colors rounded"
-                          title="Remove item"
                           aria-label="Remove item from wishlist"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
