@@ -6,6 +6,7 @@ export const storeConfig: StoreConfig = {
   announcementBar: {
     enabled: true,
     messages: [
+      'Demo storefront — checkout, accounts, and reviews are simulated.',
       'Complimentary global shipping on orders over $75',
       'End of Season Archive Sale — Up to 40% off selected essentials',
       'Designed with intention. Crafted with responsible materials.',
@@ -51,7 +52,7 @@ export const categoriesData: Category[] = [
     slug: 'accessories',
     description: 'Refined leather goods, minimalist timepieces, eyewear, and structured bags.',
     image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=1000&auto=format&fit=crop',
-    productCount: 5,
+    productCount: 4,
     featured: true,
   },
   {
@@ -78,7 +79,7 @@ export const categoriesData: Category[] = [
     slug: 'wellness',
     description: 'Botanical extracts, cold-pressed elixirs, and restorative self-care rituals.',
     image: 'https://images.unsplash.com/photo-1608248597359-07b9a52c3c6f?q=80&w=1000&auto=format&fit=crop',
-    productCount: 3,
+    productCount: 2,
     featured: false,
   },
 ];
@@ -95,8 +96,8 @@ export const storeBenefits = [
     icon: 'RefreshCw',
   },
   {
-    title: 'Encrypted Checkout',
-    description: 'Bank-grade 256-bit SSL encryption for 100% secure payment processing.',
+    title: 'Streamlined Checkout',
+    description: 'A complete, interactive checkout flow you can explore end to end.',
     icon: 'ShieldCheck',
   },
   {
