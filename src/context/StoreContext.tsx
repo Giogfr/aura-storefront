@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { PageType, RouteParams, Product, CartItem, CurrencyOption } from '../types';
 import { productsData } from '../data/products';
 import { storeConfig } from '../data/storeConfig';
@@ -176,6 +176,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Toasts
   const [toasts, setToasts] = useState<ToastState[]>([]);
+  const toastIdRef = useRef(0);
 
   // Sync cart to localStorage
   useEffect(() => {
@@ -238,7 +239,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const showToast = useCallback((message: string, type: 'info' | 'success' | 'warning' = 'success') => {
-    const id = Date.now();
+    const id = ++toastIdRef.current;
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
