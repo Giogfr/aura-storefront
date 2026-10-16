@@ -1,0 +1,17 @@
+{
+  "name": "AURA — Modern Ecommerce Storefront",
+  "short_name": "AURA",
+  "description": "A polished, modern ecommerce storefront template built with React, TypeScript, Vite, and Tailwind CSS.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#171717",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
