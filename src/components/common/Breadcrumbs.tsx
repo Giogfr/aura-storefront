@@ -22,6 +22,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
       className="flex items-center text-xs text-neutral-500 py-3 overflow-x-auto no-scrollbar whitespace-nowrap"
     >
       <button
+        type="button"
         onClick={() => navigateTo('home')}
         className="flex items-center gap-1 hover:text-neutral-900 transition-colors"
       >
@@ -37,6 +38,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
             <ChevronRight className="w-3 h-3 mx-2 text-neutral-400 shrink-0" aria-hidden="true" />
             {targetPage && !isLast ? (
               <button
+                type="button"
                 onClick={() => navigateTo(targetPage, item.params)}
                 className="hover:text-neutral-900 transition-colors truncate max-w-[200px]"
               >
