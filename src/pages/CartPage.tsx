@@ -54,8 +54,12 @@ export const CartPage: React.FC = () => {
   };
 
   const handleQuickPromo = (code: string) => {
-    applyDiscount(code);
-    showToast(`Applied code ${code}!`, 'success');
+    const res = applyDiscount(code);
+    if (res.success) {
+      showToast(`Applied code ${code}!`, 'success');
+    } else {
+      showToast(res.message, 'warning');
+    }
   };
 
   const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
@@ -149,11 +153,14 @@ export const CartPage: React.FC = () => {
                       <span className="text-[10px] uppercase font-bold tracking-wider text-neutral-400">
                         {item.product?.categoryName || 'Curated Essential'}
                       </span>
-                      <h3
-                        onClick={() => navigateTo('product', { productId: item.productId })}
-                        className="text-sm sm:text-base font-bold text-neutral-900 hover:text-neutral-600 cursor-pointer transition-colors"
-                      >
-                        {item.title}
+                      <h3 className="text-sm sm:text-base font-bold min-w-0">
+                        <button
+                          type="button"
+                          onClick={() => navigateTo('product', { productId: item.productId })}
+                          className="text-left text-neutral-900 hover:text-neutral-600 transition-colors"
+                        >
+                          {item.title}
+                        </button>
                       </h3>
                       {(item.selectedColor || item.selectedSize) && (
                         <p className="text-xs text-neutral-500 mt-0.5">
@@ -235,10 +242,14 @@ export const CartPage: React.FC = () => {
 
           {/* Order notes & gifting */}
           <div className="pt-2">
-            <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+            <label
+              htmlFor="cart-order-note"
+              className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2"
+            >
               Special Order Notes & Gift Instructions
             </label>
             <textarea
+              id="cart-order-note"
               rows={3}
               value={orderNote}
               onChange={(e) => setOrderNote(e.target.value)}
@@ -263,6 +274,7 @@ export const CartPage: React.FC = () => {
                   value={promoInput}
                   onChange={(e) => setPromoInput(e.target.value)}
                   placeholder="Coupon code (e.g. WELCOME10)"
+                  aria-label="Coupon code"
                   className="flex-1 px-3 py-2 text-xs uppercase bg-white border border-neutral-300 rounded focus:outline-hidden focus:border-neutral-900"
                 />
                 <button
@@ -352,7 +364,7 @@ export const CartPage: React.FC = () => {
                   onClick={() => navigateTo('checkout')}
                   className="py-2.5 bg-neutral-900 text-white text-xs font-bold rounded flex items-center justify-center hover:bg-neutral-800 min-h-[44px]"
                 >
-                   Pay
+                  Apple Pay
                 </button>
                 <button
                   type="button"
@@ -368,10 +380,10 @@ export const CartPage: React.FC = () => {
             <div className="pt-3 border-t border-neutral-200 text-center space-y-1">
               <div className="flex items-center justify-center gap-1 text-[11px] text-neutral-500">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                <span>256-Bit SSL Encrypted Checkout</span>
+                <span>Demo checkout — no payment is processed</span>
               </div>
               <p className="text-[10px] text-neutral-400">
-                30-day money-back guarantee on all authentic store purchases.
+                Payments, orders, and totals in this template are simulated for demonstration.
               </p>
             </div>
           </div>
