@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { X, Star, Check, ShoppingBag, ArrowRight } from 'lucide-react';
 import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
+import { useFocusTrap } from '../../lib/useFocusTrap';
 
 export const QuickViewModal: React.FC = () => {
   const { quickViewProduct, closeQuickView, addToCart, navigateTo, formatPrice } = useStore();
@@ -12,6 +13,8 @@ export const QuickViewModal: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
   const closeTimer = useRef<number | undefined>(undefined);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, Boolean(quickViewProduct));
 
   useEffect(() => {
     if (quickViewProduct) {
@@ -53,6 +56,7 @@ export const QuickViewModal: React.FC = () => {
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
       role="dialog"
       aria-modal="true"

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { categoriesData, storeConfig } from '../../data/storeConfig';
 import { PageType, RouteParams } from '../../types';
 import { X, ChevronRight, Search, Heart, User } from 'lucide-react';
+import { useFocusTrap } from '../../lib/useFocusTrap';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -13,13 +14,21 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const { navigateTo, setIsSearchOpen, setIsAccountOpen, setIsWishlistOpen, wishlistCount } = useStore();
   const [shopExpanded, setShopExpanded] = useState(true);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, isOpen);
+
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    if (!isOpen) return;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
       document.body.style.overflow = '';
-    }
-  }, [isOpen]);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -30,6 +39,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex lg:hidden"
       role="dialog"
       aria-modal="true"

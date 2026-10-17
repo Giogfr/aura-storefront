@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { productsData } from '../../data/products';
 import { Product } from '../../types';
 import { X, Heart, ShoppingBag, Trash2 } from 'lucide-react';
 import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
+import { useFocusTrap } from '../../lib/useFocusTrap';
 
 export const WishlistDrawer: React.FC = () => {
   const {
@@ -15,6 +16,9 @@ export const WishlistDrawer: React.FC = () => {
     navigateTo,
     formatPrice,
   } = useStore();
+
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, isWishlistOpen);
 
   if (!isWishlistOpen) return null;
 
@@ -35,6 +39,7 @@ export const WishlistDrawer: React.FC = () => {
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex justify-end"
       role="dialog"
       aria-modal="true"

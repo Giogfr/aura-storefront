@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { X, User, Package, MapPin, LogOut, CheckCircle2, ArrowRight } from 'lucide-react';
+import { useFocusTrap } from '../../lib/useFocusTrap';
 
 export const AccountModal: React.FC = () => {
   const { isAccountOpen, setIsAccountOpen, user, loginUser, logoutUser, showToast } = useStore();
@@ -8,6 +9,9 @@ export const AccountModal: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, isAccountOpen);
 
   if (!isAccountOpen) return null;
 
@@ -28,6 +32,7 @@ export const AccountModal: React.FC = () => {
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"

@@ -4,6 +4,7 @@ import { productsData } from '../../data/products';
 import { categoriesData } from '../../data/storeConfig';
 import { Search, X, ArrowRight, TrendingUp, Sparkles } from 'lucide-react';
 import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
+import { useFocusTrap } from '../../lib/useFocusTrap';
 
 export const SearchOverlay: React.FC = () => {
   const {
@@ -18,6 +19,8 @@ export const SearchOverlay: React.FC = () => {
 
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, isSearchOpen);
 
   useEffect(() => {
     if (isSearchOpen) {
@@ -60,6 +63,7 @@ export const SearchOverlay: React.FC = () => {
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex flex-col bg-white/98 backdrop-blur-md animate-fade-in"
       role="dialog"
       aria-modal="true"

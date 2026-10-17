@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { storeConfig } from '../../data/storeConfig';
 import { productsData } from '../../data/products';
 import { X, Trash2, ShoppingBag, ArrowRight, Truck, Tag, Plus, Check } from 'lucide-react';
 import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
+import { useFocusTrap } from '../../lib/useFocusTrap';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -32,6 +33,9 @@ export const CartDrawer: React.FC = () => {
   const [showOrderNote, setShowOrderNote] = useState(false);
   const [orderNote, setOrderNote] = useState('');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, isCartOpen);
 
   if (!isCartOpen) return null;
 
@@ -73,6 +77,7 @@ export const CartDrawer: React.FC = () => {
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex justify-end"
       role="dialog"
       aria-modal="true"
