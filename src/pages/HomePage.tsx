@@ -3,6 +3,7 @@ import { useStore } from '../context/StoreContext';
 import { categoriesData, storeBenefits, promoBanners, instagramPosts } from '../data/storeConfig';
 import { productsData } from '../data/products';
 import { ProductGrid } from '../components/common/ProductGrid';
+import { FALLBACK_COLLECTION_IMAGE } from '../lib/images';
 import {
   ArrowRight,
   Truck,
@@ -22,7 +23,7 @@ export const HomePage: React.FC = () => {
   const newArrivals = productsData.filter((p) => p.isNew);
   const bestSellers = productsData.filter((p) => p.isBestSeller).slice(0, 4);
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_COLLECTION_IMAGE;
 
   const filteredFeatured =
     featuredTab === 'all'

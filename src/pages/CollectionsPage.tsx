@@ -3,11 +3,12 @@ import { useStore } from '../context/StoreContext';
 import { categoriesData } from '../data/storeConfig';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { FALLBACK_COLLECTION_IMAGE } from '../lib/images';
 
 export const CollectionsPage: React.FC = () => {
   const { navigateTo } = useStore();
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_COLLECTION_IMAGE;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20">

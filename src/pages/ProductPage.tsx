@@ -20,6 +20,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
+import { FALLBACK_PRODUCT_IMAGE } from '../lib/images';
 
 export const ProductPage: React.FC = () => {
   const {
@@ -168,7 +169,7 @@ export const ProductPage: React.FC = () => {
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
     : 0;
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_PRODUCT_IMAGE;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">

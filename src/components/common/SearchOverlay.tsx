@@ -3,6 +3,7 @@ import { useStore } from '../../context/StoreContext';
 import { productsData } from '../../data/products';
 import { categoriesData } from '../../data/storeConfig';
 import { Search, X, ArrowRight, TrendingUp, Sparkles } from 'lucide-react';
+import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
 
 export const SearchOverlay: React.FC = () => {
   const {
@@ -55,7 +56,7 @@ export const SearchOverlay: React.FC = () => {
     navigateTo('product', { productId });
   };
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_PRODUCT_IMAGE;
 
   return (
     <div

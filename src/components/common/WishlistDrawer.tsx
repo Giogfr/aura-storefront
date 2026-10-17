@@ -3,6 +3,7 @@ import { useStore } from '../../context/StoreContext';
 import { productsData } from '../../data/products';
 import { Product } from '../../types';
 import { X, Heart, ShoppingBag, Trash2 } from 'lucide-react';
+import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
 
 export const WishlistDrawer: React.FC = () => {
   const {
@@ -30,7 +31,7 @@ export const WishlistDrawer: React.FC = () => {
     setIsWishlistOpen(false);
   };
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_PRODUCT_IMAGE;
 
   return (
     <div

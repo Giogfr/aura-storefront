@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Product } from '../../types';
 import { useStore } from '../../context/StoreContext';
 import { Heart, Eye, ShoppingBag, Star, Check } from 'lucide-react';
+import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
 
 interface ProductCardProps {
   product: Product;
@@ -62,7 +63,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
     : 0;
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_PRODUCT_IMAGE;
 
   return (
     <div
