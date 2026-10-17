@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { X, Star, Check, ShoppingBag, ArrowRight } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
 
 export const QuickViewModal: React.FC = () => {
   const { quickViewProduct, closeQuickView, addToCart, navigateTo, formatPrice } = useStore();
@@ -83,9 +83,7 @@ export const QuickViewModal: React.FC = () => {
                 src={quickViewProduct.images[activeImageIndex] || quickViewProduct.images[0]}
                 alt={quickViewProduct.title}
                 loading="lazy"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = fallbackImage;
-                }}
+                onError={imageFallback(fallbackImage)}
                 className="w-full h-full object-cover transition-all duration-300"
               />
               {quickViewProduct.isSale && (
@@ -113,9 +111,7 @@ export const QuickViewModal: React.FC = () => {
                       src={img}
                       alt=""
                       loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = fallbackImage;
-                      }}
+                      onError={imageFallback(fallbackImage)}
                       className="w-full h-full object-cover"
                     />
                   </button>

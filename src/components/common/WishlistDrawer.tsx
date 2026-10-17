@@ -3,7 +3,7 @@ import { useStore } from '../../context/StoreContext';
 import { productsData } from '../../data/products';
 import { Product } from '../../types';
 import { X, Heart, ShoppingBag, Trash2 } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
 
 export const WishlistDrawer: React.FC = () => {
   const {
@@ -98,9 +98,7 @@ export const WishlistDrawer: React.FC = () => {
                       src={product.images[0]}
                       alt={product.title}
                       loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = fallbackImage;
-                      }}
+                      onError={imageFallback(fallbackImage)}
                       className="w-16 h-20 object-cover rounded bg-neutral-100 shrink-0 cursor-pointer"
                       onClick={() => {
                         setIsWishlistOpen(false);

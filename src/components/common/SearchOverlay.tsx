@@ -3,7 +3,7 @@ import { useStore } from '../../context/StoreContext';
 import { productsData } from '../../data/products';
 import { categoriesData } from '../../data/storeConfig';
 import { Search, X, ArrowRight, TrendingUp, Sparkles } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
 
 export const SearchOverlay: React.FC = () => {
   const {
@@ -197,9 +197,7 @@ export const SearchOverlay: React.FC = () => {
                           src={product.images[0]}
                           alt={product.title}
                           loading="lazy"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = fallbackImage;
-                          }}
+                          onError={imageFallback(fallbackImage)}
                           className="w-18 h-22 object-cover rounded shrink-0 bg-neutral-100"
                         />
                         <div className="flex flex-col justify-center overflow-hidden">

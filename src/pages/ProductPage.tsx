@@ -20,7 +20,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../lib/images';
 
 export const ProductPage: React.FC = () => {
   const {
@@ -191,9 +191,7 @@ export const ProductPage: React.FC = () => {
             <img
               src={product.images[activeImageIndex] || product.images[0]}
               alt={product.title}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = fallbackImage;
-              }}
+              onError={imageFallback(fallbackImage)}
               className="w-full h-full object-cover transition-transform duration-500"
             />
 
@@ -244,9 +242,7 @@ export const ProductPage: React.FC = () => {
                   <img
                     src={img}
                     alt=""
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = fallbackImage;
-                    }}
+                    onError={imageFallback(fallbackImage)}
                     className="w-full h-full object-cover"
                   />
                 </button>
@@ -743,9 +739,7 @@ export const ProductPage: React.FC = () => {
           <img
             src={product.images[activeImageIndex]}
             alt={product.title}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = fallbackImage;
-            }}
+            onError={imageFallback(fallbackImage)}
             className="max-h-[90vh] max-w-[90vw] object-contain rounded select-none"
           />
 

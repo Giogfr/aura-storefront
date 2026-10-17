@@ -3,7 +3,7 @@ import { useStore } from '../context/StoreContext';
 import { categoriesData } from '../data/storeConfig';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { FALLBACK_COLLECTION_IMAGE } from '../lib/images';
+import { FALLBACK_COLLECTION_IMAGE, imageFallback } from '../lib/images';
 
 export const CollectionsPage: React.FC = () => {
   const { navigateTo } = useStore();
@@ -40,9 +40,7 @@ export const CollectionsPage: React.FC = () => {
             <img
               src={category.image}
               alt={category.name}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = fallbackImage;
-              }}
+              onError={imageFallback(fallbackImage)}
               className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-105 group-hover:opacity-65 transition-all duration-700 ease-out"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />

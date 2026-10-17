@@ -3,7 +3,7 @@ import { useStore } from '../context/StoreContext';
 import { categoriesData, storeBenefits, promoBanners, instagramPosts } from '../data/storeConfig';
 import { productsData } from '../data/products';
 import { ProductGrid } from '../components/common/ProductGrid';
-import { FALLBACK_COLLECTION_IMAGE } from '../lib/images';
+import { FALLBACK_COLLECTION_IMAGE, imageFallback } from '../lib/images';
 import {
   ArrowRight,
   Truck,
@@ -54,9 +54,7 @@ export const HomePage: React.FC = () => {
           <img
             src={promoBanners.hero.image}
             alt="Hero Banner"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = fallbackImage;
-            }}
+            onError={imageFallback(fallbackImage)}
             className="w-full h-full object-cover object-center opacity-65 scale-105 transition-transform duration-1000"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
@@ -133,9 +131,7 @@ export const HomePage: React.FC = () => {
                   src={cat.image}
                   alt={cat.name}
                   loading="lazy"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = fallbackImage;
-                  }}
+                  onError={imageFallback(fallbackImage)}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
@@ -209,9 +205,7 @@ export const HomePage: React.FC = () => {
             <img
               src={promoBanners.editorial.image}
               alt="Editorial lookbook"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = fallbackImage;
-              }}
+              onError={imageFallback(fallbackImage)}
               className="w-full h-full object-cover"
             />
           </div>
@@ -289,9 +283,7 @@ export const HomePage: React.FC = () => {
           <img
             src={promoBanners.largeCollectionBanner.image}
             alt="Collection Banner"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = fallbackImage;
-            }}
+            onError={imageFallback(fallbackImage)}
             className="absolute inset-0 w-full h-full object-cover opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -364,9 +356,7 @@ export const HomePage: React.FC = () => {
                 src={post.image}
                 alt={post.caption}
                 loading="lazy"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = fallbackImage;
-                }}
+                onError={imageFallback(fallbackImage)}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3 text-white">

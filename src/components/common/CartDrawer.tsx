@@ -3,7 +3,7 @@ import { useStore } from '../../context/StoreContext';
 import { storeConfig } from '../../data/storeConfig';
 import { productsData } from '../../data/products';
 import { X, Trash2, ShoppingBag, ArrowRight, Truck, Tag, Plus, Check } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -162,9 +162,7 @@ export const CartDrawer: React.FC = () => {
                       src={item.image}
                       alt={item.title}
                       loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = fallbackImage;
-                      }}
+                      onError={imageFallback(fallbackImage)}
                       className="w-18 h-22 object-cover rounded bg-neutral-100 shrink-0 cursor-pointer"
                       onClick={() => {
                         setIsCartOpen(false);
@@ -265,9 +263,7 @@ export const CartDrawer: React.FC = () => {
                           <img
                             src={p.images[0]}
                             alt=""
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = fallbackImage;
-                            }}
+                            onError={imageFallback(fallbackImage)}
                             className="w-10 h-12 object-cover rounded bg-white shrink-0"
                           />
                           <div className="truncate">

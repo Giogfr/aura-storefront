@@ -11,7 +11,7 @@ import {
   ShoppingBag,
   Tag,
 } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../lib/images';
 
 export const CartPage: React.FC = () => {
   const {
@@ -135,9 +135,7 @@ export const CartPage: React.FC = () => {
                 <img
                   src={item.image || fallbackImage}
                   alt={item.title}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = fallbackImage;
-                  }}
+                  onError={imageFallback(fallbackImage)}
                   onClick={() => navigateTo('product', { productId: item.productId })}
                   className="w-24 h-30 sm:w-28 sm:h-36 object-cover rounded bg-neutral-100 cursor-pointer shrink-0"
                 />

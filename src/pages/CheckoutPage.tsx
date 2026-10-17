@@ -10,7 +10,7 @@ import {
   Tag,
   Package,
 } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../lib/images';
 
 export const CheckoutPage: React.FC = () => {
   const {
@@ -227,9 +227,7 @@ export const CheckoutPage: React.FC = () => {
                     <img
                       src={item.image || fallbackImage}
                       alt=""
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = fallbackImage;
-                      }}
+                      onError={imageFallback(fallbackImage)}
                       className="w-12 h-14 object-cover rounded bg-neutral-200"
                     />
                     <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-neutral-700 text-white text-[10px] rounded-full flex items-center justify-center font-bold">
@@ -615,9 +613,7 @@ export const CheckoutPage: React.FC = () => {
                     <img
                       src={item.image || fallbackImage}
                       alt=""
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = fallbackImage;
-                      }}
+                      onError={imageFallback(fallbackImage)}
                       className="w-14 h-16 object-cover rounded bg-neutral-200 border border-neutral-200"
                     />
                     <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-neutral-700 text-white text-[10px] rounded-full flex items-center justify-center font-bold">

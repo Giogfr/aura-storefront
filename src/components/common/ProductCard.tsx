@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Product } from '../../types';
 import { useStore } from '../../context/StoreContext';
 import { Heart, Eye, ShoppingBag, Star, Check } from 'lucide-react';
-import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
+import { FALLBACK_PRODUCT_IMAGE, imageFallback } from '../../lib/images';
 
 interface ProductCardProps {
   product: Product;
@@ -83,9 +83,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           src={product.images[0]}
           alt={product.title}
           loading="lazy"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = fallbackImage;
-          }}
+          onError={imageFallback(fallbackImage)}
           className={`w-full h-full object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 ${
             hasSecondaryImage && isHovered ? 'opacity-0' : 'opacity-100'
           }`}
@@ -97,9 +95,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             src={product.images[1]}
             alt={`${product.title} alternate view`}
             loading="lazy"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = fallbackImage;
-            }}
+            onError={imageFallback(fallbackImage)}
             className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 ${
               isHovered ? 'opacity-100' : 'opacity-0'
             }`}
