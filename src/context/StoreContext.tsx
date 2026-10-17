@@ -45,13 +45,10 @@ interface StoreContextValue {
   cartBumping: boolean;
   recentlyAddedId: string | null;
   cartSubtotal: number;
-  cartDiscount: number;
   cartDiscountAmount: number;
-  cartShipping: number;
   cartShippingFee: number;
   cartTaxAmount: number;
   cartTotal: number;
-  cartGrandTotal: number;
   discountCode: string;
   discountRate: number;
   discountPercent: number;
@@ -320,11 +317,11 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }, [cart]);
 
-  const cartDiscount = useMemo(() => {
+  const cartDiscountAmount = useMemo(() => {
     return Math.round(cartSubtotal * discountRate * 100) / 100;
   }, [cartSubtotal, discountRate]);
 
-  const cartShipping = useMemo(() => {
+  const cartShippingFee = useMemo(() => {
     if (cartSubtotal === 0) return 0;
     if (discountCode === 'FREESHIP' || cartSubtotal >= storeConfig.freeShippingThreshold) {
       return 0;
@@ -332,20 +329,15 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return storeConfig.standardShippingFee;
   }, [cartSubtotal, discountCode]);
 
-  const cartTotal = useMemo(() => {
-    return Math.max(0, cartSubtotal - cartDiscount + cartShipping);
-  }, [cartSubtotal, cartDiscount, cartShipping]);
-
   const cartTaxAmount = useMemo(() => {
-    return Math.round((cartSubtotal - cartDiscount) * TAX_RATE * 100) / 100;
-  }, [cartSubtotal, cartDiscount]);
+    return Math.round((cartSubtotal - cartDiscountAmount) * TAX_RATE * 100) / 100;
+  }, [cartSubtotal, cartDiscountAmount]);
 
-  const cartGrandTotal = useMemo(() => {
-    return Math.max(0, cartSubtotal - cartDiscount + cartShipping + cartTaxAmount);
-  }, [cartSubtotal, cartDiscount, cartShipping, cartTaxAmount]);
+  // Amount due: discounted merchandise + shipping + estimated tax.
+  const cartTotal = useMemo(() => {
+    return Math.max(0, cartSubtotal - cartDiscountAmount + cartShippingFee + cartTaxAmount);
+  }, [cartSubtotal, cartDiscountAmount, cartShippingFee, cartTaxAmount]);
 
-  const cartDiscountAmount = cartDiscount;
-  const cartShippingFee = cartShipping;
   const discountPercent = Math.round(discountRate * 100);
 
   const cartCount = useMemo(() => {
@@ -471,13 +463,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         cartBumping,
         recentlyAddedId,
         cartSubtotal,
-        cartDiscount,
         cartDiscountAmount,
-        cartShipping,
         cartShippingFee,
         cartTaxAmount,
         cartTotal,
-        cartGrandTotal,
         discountCode,
         discountRate,
         discountPercent,

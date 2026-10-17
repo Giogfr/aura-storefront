@@ -3,6 +3,7 @@ import { useStore } from '../../context/StoreContext';
 import { storeConfig } from '../../data/storeConfig';
 import { productsData } from '../../data/products';
 import { X, Trash2, ShoppingBag, ArrowRight, Truck, Tag, Plus, Check } from 'lucide-react';
+import { FALLBACK_PRODUCT_IMAGE } from '../../lib/images';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -11,8 +12,9 @@ export const CartDrawer: React.FC = () => {
     cart,
     cartCount,
     cartSubtotal,
-    cartDiscount,
-    cartShipping,
+    cartDiscountAmount,
+    cartShippingFee,
+    cartTaxAmount,
     cartTotal,
     discountCode,
     applyDiscount,
@@ -67,7 +69,7 @@ export const CartDrawer: React.FC = () => {
     navigateTo('cart');
   };
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_PRODUCT_IMAGE;
 
   return (
     <div
@@ -395,21 +397,25 @@ export const CartDrawer: React.FC = () => {
                 <span>Subtotal</span>
                 <span className="font-semibold text-neutral-900">{formatPrice(cartSubtotal)}</span>
               </div>
-              {cartDiscount > 0 && (
+              {cartDiscountAmount > 0 && (
                 <div className="flex justify-between text-emerald-700 font-medium">
                   <span>Promo discount</span>
-                  <span>-{formatPrice(cartDiscount)}</span>
+                  <span>-{formatPrice(cartDiscountAmount)}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span>Estimated Shipping</span>
                 <span>
-                  {cartShipping === 0 ? (
+                  {cartShippingFee === 0 ? (
                     <strong className="text-emerald-700">Free</strong>
                   ) : (
-                    formatPrice(cartShipping)
+                    formatPrice(cartShippingFee)
                   )}
                 </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Estimated Tax</span>
+                <span>{formatPrice(cartTaxAmount)}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-neutral-900 pt-2 border-t border-neutral-100">
                 <span>Estimated Total</span>

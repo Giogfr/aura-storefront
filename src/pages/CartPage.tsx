@@ -11,6 +11,7 @@ import {
   ShoppingBag,
   Tag,
 } from 'lucide-react';
+import { FALLBACK_PRODUCT_IMAGE } from '../lib/images';
 
 export const CartPage: React.FC = () => {
   const {
@@ -22,7 +23,7 @@ export const CartPage: React.FC = () => {
     cartDiscountAmount,
     cartShippingFee,
     cartTaxAmount,
-    cartGrandTotal,
+    cartTotal,
     discountCode,
     discountPercent,
     applyDiscount,
@@ -57,7 +58,7 @@ export const CartPage: React.FC = () => {
     }
   };
 
-  const fallbackImage = 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop';
+  const fallbackImage = FALLBACK_PRODUCT_IMAGE;
 
   if (cart.length === 0) {
     return (
@@ -331,7 +332,7 @@ export const CartPage: React.FC = () => {
 
               <div className="flex justify-between text-sm sm:text-base font-bold text-neutral-900 pt-3 border-t border-neutral-200">
                 <span>Estimated Total</span>
-                <span>{formatPrice(cartGrandTotal)}</span>
+                <span>{formatPrice(cartTotal)}</span>
               </div>
             </div>
 
